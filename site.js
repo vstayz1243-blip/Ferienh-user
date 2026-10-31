@@ -24,6 +24,7 @@ document.querySelectorAll('[data-house-link]').forEach((link) => {
         const houseSelect = document.querySelector('#house');
         if (houseSelect) {
             houseSelect.value = house;
+            houseSelect.dispatchEvent(new Event('change', { bubbles: true }));
         } else {
             try { sessionStorage.setItem('preferredHouse', house); } catch {}
         }
@@ -75,7 +76,8 @@ const updateBookingSummary = () => {
     if (checkAvailabilityLink) checkAvailabilityLink.href = getBookingUrl();
 };
 if (arrival && departure) {
-    const today = new Date().toISOString().slice(0, 10);
+    const now = new Date();
+    const today = [now.getFullYear(), String(now.getMonth() + 1).padStart(2, '0'), String(now.getDate()).padStart(2, '0')].join('-');
     arrival.min = today;
     departure.min = today;
     arrival.addEventListener('change', () => {
@@ -138,6 +140,7 @@ try {
     const houseSelect = document.querySelector('#house');
     if (preferred && houseSelect) {
         houseSelect.value = preferred;
+        houseSelect.dispatchEvent(new Event('change', { bubbles: true }));
         sessionStorage.removeItem('preferredHouse');
     }
 } catch {}
