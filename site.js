@@ -21,7 +21,12 @@ navigation?.querySelectorAll('a').forEach((link) => {
 document.querySelectorAll('[data-house-link]').forEach((link) => {
     link.addEventListener('click', () => {
         const house = link.dataset.houseLink;
-        try { sessionStorage.setItem('preferredHouse', house); } catch {}
+        const houseSelect = document.querySelector('#house');
+        if (houseSelect) {
+            houseSelect.value = house;
+        } else {
+            try { sessionStorage.setItem('preferredHouse', house); } catch {}
+        }
     });
 });
 
