@@ -222,31 +222,40 @@
                 <div class="form-grid">
                     <div class="form-row">
                         <label for="arrival">Anreise</label>
-                        <input type="date" id="arrival" name="arrival">
+                        <input type="date" id="arrival" name="arrival" required>
                     </div>
                     <div class="form-row">
                         <label for="departure">Abreise</label>
-                        <input type="date" id="departure" name="departure">
+                        <input type="date" id="departure" name="departure" required>
                     </div>
                 </div>
                 <div class="form-row">
                     <label for="guests">Anzahl der Personen</label>
-                    <input type="number" id="guests" name="guests" min="1" max="12" placeholder="z. B. 4">
+                    <input type="number" id="guests" name="guests" min="1" max="12" value="2" required>
                 </div>
                 <div class="form-row">
                     <label for="house">Welches Haus interessiert dich?</label>
-                    <select id="house" name="house">
+                    <select id="house" name="house" required>
                         <option value="Noch offen">Ich bin noch offen</option>
                         <option value="Ferienhaus 141">Ferienhaus 141</option>
                         <option value="Ferienhaus 136">Ferienhaus 136</option>
                     </select>
                 </div>
-                <div class="form-row">
-                    <label for="message">Deine Nachricht</label>
-                    <textarea id="message" name="message" rows="4" placeholder="Reisezeitraum, Personenanzahl und deine Fragen ..." required></textarea>
+                <div class="booking-summary" aria-live="polite">
+                    <div>
+                        <span class="booking-summary-label">DEIN AUFENTHALT</span>
+                        <strong id="stayDuration">Bitte wähle An- und Abreise</strong>
+                        <span id="stayDates" class="booking-summary-dates">Dein Zeitraum wird hier zusammengefasst.</span>
+                    </div>
+                    <span class="booking-summary-nights"><strong id="stayNights">–</strong><small>Nächte</small></span>
                 </div>
-                <button class="button button-dark" type="submit">Anfrage vorbereiten <span aria-hidden="true">↗</span></button>
-                <p class="form-note" id="formMessage" role="status">Das Formular öffnet dein E-Mail-Programm. Es wird nichts automatisch versendet.</p>
+                <div class="form-row">
+                    <label for="message">Zusätzliche Nachricht <span class="optional-label">(optional)</span></label>
+                    <textarea id="message" name="message" rows="4" placeholder="Hast du noch Fragen oder besondere Wünsche?"></textarea>
+                </div>
+                <button class="button button-dark" type="submit">Anfrage per E-Mail vorbereiten <span aria-hidden="true">↗</span></button>
+                <a class="booking-external-link" id="checkAvailabilityLink" href="https://www.hptouristik.de/" target="_blank" rel="noopener noreferrer">Zeitraum bei H&amp;P prüfen <span aria-hidden="true">↗</span></a>
+                <p class="form-note" id="formMessage" role="status">Die Anfrage wird in deinem E-Mail-Programm vorbereitet. Du kannst sie dort prüfen und absenden. Es erfolgt kein automatischer Versand.</p>
             </form>
         </section>
     </main>
