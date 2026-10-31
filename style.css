@@ -6,9 +6,9 @@
     --white: #fff;
     --line: #dedfd7;
     --accent: #a8b49c;
-    --serif: Georgia, "Times New Roman", serif;
-    --sans: "DM Sans", Arial, sans-serif;
-    --display: "Manrope", "DM Sans", Arial, sans-serif;
+    --serif: "Roboto", Arial, sans-serif;
+    --sans: "Roboto", Arial, sans-serif;
+    --display: "Roboto", Arial, sans-serif;
 }
 
 * { box-sizing: border-box; }
@@ -314,4 +314,95 @@ h1 em, h2 em { font-family: var(--serif); font-weight: 400; letter-spacing: -.06
  .detail-features-grid, .detail-booking { grid-template-columns: 1fr; gap: 35px; }
  .detail-booking { padding-top: 85px; padding-bottom: 85px; }
  .legal-main { padding-top: 125px; padding-bottom: 85px; }
+}
+
+
+/* Roboto Light typography system */
+:root {
+    --serif: "Roboto", Arial, sans-serif;
+    --sans: "Roboto", Arial, sans-serif;
+    --display: "Roboto", Arial, sans-serif;
+}
+body, button, input, textarea, select {
+    font-family: "Roboto", Arial, sans-serif;
+    font-weight: 300;
+}
+h1, h2, h3, .brand-mark, .main-navigation, .button, .house-action {
+    font-family: "Roboto", Arial, sans-serif;
+}
+h1 em, h2 em, .detail-hero h1 em {
+    font-family: "Roboto", Arial, sans-serif;
+    font-style: normal;
+    font-weight: 300;
+    letter-spacing: -.055em;
+}
+.hero h1, .intro h2, .section-heading h2, .statement h2, .contact-intro h2,
+.detail-overview h2, .detail-features h2, .detail-booking h2 {
+    font-weight: 300;
+    letter-spacing: -.06em;
+}
+.eyebrow, .brand-caption, .feature-index { font-family: "Roboto", Arial, sans-serif; }
+
+/* Larger, clearly differentiated actions on both house cards */
+.house-info > .house-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 22px;
+    width: fit-content;
+    min-width: 225px;
+    min-height: 58px;
+    margin: 18px 10px 0 0;
+    padding: 0 22px;
+    font-family: "Roboto", Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: .1px;
+    line-height: 1.2;
+    text-decoration: none;
+    transition: background .25s ease, color .25s ease, border-color .25s ease, transform .25s ease;
+}
+.house-action span { margin-left: auto; font-size: 17px; }
+.house-action-secondary {
+    border: 1px solid #bfc3b8;
+    color: var(--ink);
+    background: transparent;
+}
+.house-action-secondary:hover {
+    border-color: var(--ink);
+    background: #e9e9e1;
+    transform: translateY(-2px);
+}
+.house-action-primary {
+    border: 1px solid var(--ink);
+    color: #fff;
+    background: var(--ink);
+}
+.house-action-primary:hover {
+    border-color: #59624f;
+    background: #59624f;
+    transform: translateY(-2px);
+}
+
+/* Subtle GSAP parallax support */
+.hero-image, .statement-image { will-change: transform; }
+.hero-image { transform: scale(1.12); }
+.detail-hero::before {
+    transform: translate3d(0, var(--parallax-y, 0%), 0) scale(1.08);
+}
+[data-reveal] { will-change: transform, opacity; }
+
+@media (max-width: 850px) {
+    .house-info > .house-action { min-width: 0; min-height: 54px; padding: 0 17px; font-size: 13px; }
+}
+@media (max-width: 650px) {
+    .house-info > .house-action { width: 100%; margin: 12px 0 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+    }
 }
