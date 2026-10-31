@@ -444,3 +444,34 @@ h1 em, h2 em, .detail-hero h1 em {
 @media (max-width: 650px) {
     .booking-summary { padding: 18px; }
 }
+
+
+/* Google Maps route action on the house cards */
+.house-info > .house-route-action {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+    width: fit-content;
+    min-width: 225px;
+    min-height: 54px;
+    margin: 12px 0 0;
+    padding: 0 20px;
+    border: 1px solid #c9ccc2;
+    background: #fff;
+    color: var(--ink);
+    font-family: "Roboto", Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    transition: border-color .2s ease, background .2s ease, transform .2s ease;
+}
+.house-route-action:hover {
+    border-color: #aeb4a7;
+    background: #f8f8f4;
+    transform: translateY(-2px);
+}
+.google-maps-logo { display: block; width: 23px; height: 23px; flex: 0 0 23px; }
+.house-route-action .route-arrow { margin-left: auto; font-size: 16px; }
+@media (max-width: 650px) {
+    .house-info > .house-route-action { width: 100%; min-width: 0; margin: 12px 0 0; }
+}
