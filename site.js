@@ -87,3 +87,49 @@ try {
 
 const year = new Date().getFullYear();
 document.querySelectorAll('#year, [data-year]').forEach((node) => node.textContent = year);
+
+
+// GSAP motion system: restrained reveals and image parallax.
+(() => {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const gsap = window.gsap;
+    if (!gsap || reduceMotion) return;
+
+    if (window.ScrollTrigger) gsap.registerPlugin(window.ScrollTrigger);
+
+    const revealSelectors = [
+        '.intro-grid', '.feature-strip', '.section-heading', '.house-card',
+        '.availability-card', '.location-map', '.contact-intro', '.contact-form',
+        '.detail-overview', '.photo-gallery', '.detail-features-grid', '.detail-booking'
+    ];
+    const revealTargets = revealSelectors.flatMap((selector) => [...document.querySelectorAll(selector)]);
+    revealTargets.forEach((element) => {
+        gsap.fromTo(element,
+            { autoAlpha: 0, y: 34 },
+            {
+                autoAlpha: 1, y: 0, duration: 0.85, ease: 'power2.out',
+                scrollTrigger: window.ScrollTrigger ? { trigger: element, start: 'top 88%', once: true } : undefined
+            }
+        );
+    });
+
+    if (window.ScrollTrigger) {
+        const parallax = (selector, yPercent) => {
+            const element = document.querySelector(selector);
+            if (!element) return;
+            gsap.to(element, {
+                yPercent, ease: 'none',
+                scrollTrigger: { trigger: element.parentElement, start: 'top top', end: 'bottom top', scrub: 0.6 }
+            });
+        };
+        parallax('.hero-image', 18);
+        parallax('.statement-image', 14);
+
+        document.querySelectorAll('.detail-hero').forEach((element) => {
+            gsap.to(element, {
+                '--parallax-y': '9%', ease: 'none',
+                scrollTrigger: { trigger: element, start: 'top top', end: 'bottom top', scrub: 0.6 }
+            });
+        });
+    }
+})();
