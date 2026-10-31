@@ -103,6 +103,17 @@ h1 em, h2 em { font-family: var(--serif); font-weight: 400; letter-spacing: -.06
 .house-info .text-link { align-self: flex-start; margin-top: 23px; }
 .price-note { margin: -35px 0 0; color: #777b72; font-size: 10px; }
 
+.availability-section { padding-top: 125px; padding-bottom: 125px; }
+.availability-heading { margin-bottom: 55px; }
+.availability-card { margin-bottom: 38px; padding: 32px; background: #eaeae3; }
+.availability-card-heading { display: flex; align-items: end; justify-content: space-between; gap: 20px; margin-bottom: 24px; }
+.availability-card-heading .eyebrow { margin-bottom: 8px; }
+.availability-card-heading h3 { margin: 0; font: 600 54px/.95 var(--display); letter-spacing: -.08em; }
+.availability-card-heading h3 span { color: #9ba68f; }
+.availability-card-heading .text-link { margin: 0 0 5px; }
+.availability-frame { display: block; width: 100%; height: 720px; border: 1px solid var(--line); background: var(--paper); }
+.availability-note { margin: 14px 0 0; color: var(--muted); font-size: 10px; line-height: 1.6; }
+
 .statement { min-height: 610px; position: relative; display: flex; align-items: center; color: white; background: #263027; overflow: hidden; }
 .statement-image { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(15,22,16,.82), rgba(15,22,16,.35)), url("https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=2200&q=85") center 55%/cover; }
 .statement-content { position: relative; width: min(1160px, 82%); margin: auto; padding: 100px 0; }
@@ -190,6 +201,11 @@ h1 em, h2 em { font-family: var(--serif); font-weight: 400; letter-spacing: -.06
     .house-description { margin: 20px 0; }
     .house-meta { gap: 9px 13px; }
     .price-note { margin-top: -18px; line-height: 1.6; }
+    .availability-section { padding-top: 85px; padding-bottom: 85px; }
+    .availability-card { padding: 20px; margin-bottom: 25px; }
+    .availability-card-heading { align-items: start; flex-direction: column; }
+    .availability-card-heading h3 { font-size: 48px; }
+    .availability-frame { height: 680px; }
     .statement { min-height: 560px; }
     .statement-content { width: 86%; padding: 85px 0; }
     .statement h2 { font-size: clamp(56px, 12vw, 78px); }
