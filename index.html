@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ferienhaus 141/136 - Schwarzwald</title>
+    <link rel="stylesheet" href="styles.css">
+    <script type="module" src="script.ts"></script>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="https://via.placeholder.com/150" alt="Ferienhaus Logo">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#ueber-uns">Über Uns</a></li>
+                <li><a href="#ferienhaeuser">Ferienhäuser</a></li>
+                <li><a href="#kontakt">Kontakt</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>Ferienhaus 141/136</h1>
+        <p>Wunderschöne Unterkunft im Schwarzwald</p>
+        <a href="#ferienhaeuser" class="btn">Mehr erfahren</a>
+    </section>
+
+    <section id="ueber-uns" class="section">
+        <h2>Über Uns</h2>
+        <p>Willkommen im Ferienhaus 141/136 – eingerichtet für eine perfekte Urlaubserfahrung im Schwarzwald. Unsere Ferienhäuser bieten Komfort, Natur und Ruhe inmitten der malerischen Landschaft.</p>
+    </section>
+
+    <section id="ferienhaeuser" class="section">
+        <h2>Ferienhäuser</h2>
+        <div class="houses">
+            <div class="house">
+                <h3>Ferienhaus 141</h3>
+                <img src="https://via.placeholder.com/400x250" alt="Ferienhaus 141">
+                <p>Das Ferienhaus 141 ist ideal für Familien. Es verfügt über 3 Schlafzimmer, eine voll ausgestattete Küche und einen Balkon mit Blick auf die Berge.</p>
+                <p><strong>Preis:</strong> 150 €/Nacht</p>
+                <button class="btn">Details</button>
+            </div>
+            <div class="house">
+                <h3>Ferienhaus 136</h3>
+                <img src="https://via.placeholder.com/400x250" alt="Ferienhaus 136">
+                <p>Das Ferienhaus 136 ist perfekt für Paare oder kleine Gruppen. Es bietet 2 Schlafzimmer, eine gemütliche Wohnfläche und eine Terrasse.</p>
+                <p><strong>Preis:</strong> 120 €/Nacht</p>
+                <button class="btn">Details</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="kontakt" class="section">
+        <h2>Kontakt</h2>
+        <form id="contactForm">
+            <label for="name">Name:</label>
+            <input type="text" id="name" required>
+
+            <label for="email">E-Mail:</label>
+            <input type="email" id="email" required>
+
+            <label for="message">Nachricht:</label>
+            <textarea id="message" required></textarea>
+
+            <button type="submit" class="btn">Nachricht senden</button>
+        </form>
+        <div id="formMessage"></div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Ferienhaus 141/136 | Schwarzwald</p>
+    </footer>
+</body>
+</html>

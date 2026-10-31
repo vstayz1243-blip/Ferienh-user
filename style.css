@@ -1,0 +1,133 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #28a745;
+    color: white;
+}
+
+.logo img {
+    width: 150px;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+nav a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+}
+
+.hero {
+    text-align: center;
+    padding: 80px 20px;
+    background: url('https://via.placeholder.com/1920x400') no-repeat center center/cover;
+    color: white;
+}
+
+.hero h1 {
+    font-size: 3em;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+}
+
+.hero .btn {
+    padding: 10px 20px;
+    background-color: #fff;
+    color: #28a745;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.section {
+    padding: 60px 20px;
+    max-width: 1200px;
+    margin: auto;
+    background-color: white;
+}
+
+.section h2 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.houses {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.house {
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 20px;
+    width: 300px;
+    text-align: center;
+}
+
+.house img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    margin-bottom: 15px;
+}
+
+.house .btn {
+    margin-top: 15px;
+}
+
+#kontakt form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 500px;
+    margin: auto;
+}
+
+#kontakt input, #kontakt textarea {
+    padding: 10px;
+    font-size: 1em;
+}
+
+#formMessage {
+    margin-top: 15px;
+    font-weight: bold;
+    color: green;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #28a745;
+    color: white;
+    margin-top: 40px;
+}
+
+@media (max-width: 768px) {
+    .hero {
+        padding: 60px 10px;
+    }
+
+    .houses {
+        flex-direction: column;
+        align-items: center;
+    }
+}
