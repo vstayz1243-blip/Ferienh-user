@@ -34,29 +34,86 @@ const form = document.querySelector('#contactForm');
 const formMessage = document.querySelector('#formMessage');
 const arrival = document.querySelector('#arrival');
 const departure = document.querySelector('#departure');
+const guests = document.querySelector('#guests');
+const houseSelect = document.querySelector('#house');
+const stayDuration = document.querySelector('#stayDuration');
+const stayDates = document.querySelector('#stayDates');
+const stayNights = document.querySelector('#stayNights');
+const checkAvailabilityLink = document.querySelector('#checkAvailabilityLink');
+
+const formatDate = (value) => {
+    if (!value) return '';
+    return new Intl.DateTimeFormat('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' })
+        .format(new Date(value + 'T12:00:00'));
+};
+const getNights = () => {
+    if (!arrival?.value || !departure?.value) return 0;
+    const startDate = new Date(arrival.value + 'T00:00:00');
+    const endDate = new Date(departure.value + 'T00:00:00');
+    return Math.round((endDate - startDate) / 86400000);
+};
+const getBookingUrl = () => {
+    const housePath = houseSelect?.value === 'Ferienhaus 141' ? 'ofi-141'
+        : houseSelect?.value === 'Ferienhaus 136' ? 'ofi-136' : null;
+    if (!housePath) return 'https://www.hptouristik.de/schwarzwald/bad-duerrheim/feriendorf-oefingen/';
+    const url = new URL('https://www.hptouristik.de/schwarzwald/bad-duerrheim/feriendorf-oefingen/' + housePath);
+    if (arrival?.value) url.searchParams.set('from', arrival.value);
+    if (departure?.value) url.searchParams.set('to', departure.value);
+    if (guests?.value) url.searchParams.set('persons', guests.value);
+    return url.toString();
+};
+const updateBookingSummary = () => {
+    if (!arrival || !departure) return;
+    const nights = getNights();
+    const validDates = nights > 0;
+    if (stayDuration) stayDuration.textContent = validDates ? nights + (nights === 1 ? ' Übernachtung' : ' Übernachtungen') : 'Bitte wähle An- und Abreise';
+    if (stayDates) stayDates.textContent = arrival.value && departure.value && validDates
+        ? formatDate(arrival.value) + ' – ' + formatDate(departure.value)
+        : 'Dein Zeitraum wird hier zusammengefasst.';
+    if (stayNights) stayNights.textContent = validDates ? String(nights) : '–';
+    if (departure) departure.min = arrival.value || new Date().toISOString().slice(0, 10);
+    if (checkAvailabilityLink) checkAvailabilityLink.href = getBookingUrl();
+};
 if (arrival && departure) {
+    const today = new Date().toISOString().slice(0, 10);
+    arrival.min = today;
+    departure.min = today;
     arrival.addEventListener('change', () => {
-        departure.min = arrival.value || '';
         if (departure.value && departure.value <= arrival.value) departure.value = '';
+        updateBookingSummary();
     });
+    departure.addEventListener('change', updateBookingSummary);
 }
+[guests, houseSelect].forEach((field) => field?.addEventListener('change', updateBookingSummary));
+updateBookingSummary();
 
 form?.addEventListener('submit', (event) => {
     event.preventDefault();
     if (!form.reportValidity()) return;
+    const nights = getNights();
+    if (nights < 1) {
+        departure?.setCustomValidity('Die Abreise muss mindestens einen Tag nach der Anreise liegen.');
+        departure?.reportValidity();
+        departure?.setCustomValidity('');
+        return;
+    }
     const data = new FormData(form);
-    const subject = encodeURIComponent('Anfrage ' + data.get('house'));
+    const bookingUrl = getBookingUrl();
+    const subject = encodeURIComponent('Buchungsanfrage – ' + data.get('house'));
     const body = encodeURIComponent([
         'Name: ' + data.get('name'),
         'E-Mail: ' + data.get('email'),
         'Haus: ' + data.get('house'),
-        'Anreise: ' + (data.get('arrival') || 'Noch offen'),
-        'Abreise: ' + (data.get('departure') || 'Noch offen'),
-        'Personen: ' + (data.get('guests') || 'Nicht angegeben'),
+        'Anreise: ' + formatDate(data.get('arrival')),
+        'Abreise: ' + formatDate(data.get('departure')),
+        'Aufenthaltsdauer: ' + nights + (nights === 1 ? ' Nacht' : ' Nächte'),
+        'Personen: ' + data.get('guests'),
         '',
-        data.get('message')
+        'Verfügbarkeit bei H&P: ' + bookingUrl,
+        '',
+        'Nachricht: ' + (data.get('message') || 'Keine zusätzliche Nachricht')
     ].join('\n'));
-    formMessage.textContent = 'Dein E-Mail-Programm wird geöffnet. Bitte ergänze dort den Empfänger und sende die Nachricht ab.';
+    formMessage.textContent = 'Dein E-Mail-Programm wird geöffnet. Bitte ergänze den Empfänger, prüfe die Angaben und sende die Anfrage ab.';
     window.location.href = 'mailto:?subject=' + subject + '&body=' + body;
 });
 
