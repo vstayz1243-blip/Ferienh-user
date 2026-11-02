@@ -94,8 +94,8 @@ function parseCalendar(icsText) {
     const calendar = new ICAL.Component(parsed);
     const events = calendar.getAllSubcomponents('vevent');
     const now = new Date();
-    const start = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    const end = new Date(now.getFullYear(), now.getMonth() + RANGE_MONTHS, now.getDate());
+    const start = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
+    const end = new Date(Date.UTC(now.getFullYear(), now.getMonth() + RANGE_MONTHS, now.getDate()));
     const rangeStart = ICAL.Time.fromJSDate(start, true);
     const rangeEnd = ICAL.Time.fromJSDate(end, true);
     const bookedDates = new Set();
