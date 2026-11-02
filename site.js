@@ -193,3 +193,39 @@ document.querySelectorAll('#year, [data-year]').forEach((node) => node.textConte
         });
     }
 })();
+
+
+// Frontend calendar shell. Dates remain explicitly unknown until server-side iCal data is connected.
+(() => {
+    const now = new Date();
+    document.querySelectorAll('[data-calendar-house]').forEach((card) => {
+        let displayedMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+        const monthLabel = card.querySelector('[data-calendar-month]');
+        const daysContainer = card.querySelector('[data-calendar-days]');
+        const render = () => {
+            const year = displayedMonth.getFullYear();
+            const month = displayedMonth.getMonth();
+            monthLabel.textContent = new Intl.DateTimeFormat('de-DE', { month: 'long', year: 'numeric' }).format(displayedMonth);
+            daysContainer.replaceChildren();
+            const firstWeekday = (new Date(year, month, 1).getDay() + 6) % 7;
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            for (let i = 0; i < firstWeekday; i++) {
+                const blank = document.createElement('span');
+                blank.className = 'calendar-day is-empty';
+                blank.setAttribute('aria-hidden', 'true');
+                daysContainer.append(blank);
+            }
+            for (let day = 1; day <= daysInMonth; day++) {
+                const cell = document.createElement('span');
+                cell.className = 'calendar-day is-unknown';
+                cell.textContent = String(day);
+                cell.setAttribute('aria-label', day + '. ' + monthLabel.textContent + ': Belegungsdaten noch nicht verfügbar');
+                if (year === now.getFullYear() && month === now.getMonth() && day === now.getDate()) cell.classList.add('is-today');
+                daysContainer.append(cell);
+            }
+        };
+        card.querySelector('[data-calendar-prev]')?.addEventListener('click', () => { displayedMonth.setMonth(displayedMonth.getMonth() - 1); render(); });
+        card.querySelector('[data-calendar-next]')?.addEventListener('click', () => { displayedMonth.setMonth(displayedMonth.getMonth() + 1); render(); });
+        render();
+    });
+})();
