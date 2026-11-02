@@ -159,43 +159,54 @@
         <section class="availability-section section-shell" id="verfuegbarkeit">
             <div class="section-heading availability-heading">
                 <div>
-                    <p class="eyebrow">AKTUELLE BELEGUNG</p>
-                    <h2>Verfügbarkeit<br><em>direkt prüfen.</em></h2>
+                    <p class="eyebrow">BELEGUNG AUF EINEN BLICK</p>
+                    <h2>Verfügbarkeit<br><em>direkt entdecken.</em></h2>
                 </div>
-                <p class="heading-aside">Die Buchungsansicht wird direkt von H&amp;P Touristik geladen. So bleiben die angezeigten Informationen an der Originalquelle.</p>
+                <p class="heading-aside">Unsere eigenen Kalender für beide Ferienhäuser. Die Live-Belegungsdaten von H&amp;P werden ergänzt, sobald die iCal-Feeds hinterlegt sind.</p>
             </div>
 
-            <article class="availability-card">
-                <div class="availability-card-heading">
-                    <div><p class="eyebrow">FERIENHAUS</p><h3>141<span>.</span></h3></div>
-                    <a class="text-link" href="https://www.hptouristik.de/schwarzwald/bad-duerrheim/feriendorf-oefingen/ofi-141?from=2026-11-10&amp;to=2026-11-17&amp;persons=1" target="_blank" rel="noopener noreferrer">Bei H&amp;P öffnen <span aria-hidden="true">↗</span></a>
-                </div>
-                <iframe
-                    class="availability-frame"
-                    src="https://www.hptouristik.de/schwarzwald/bad-duerrheim/feriendorf-oefingen/ofi-141?from=2026-11-10&amp;to=2026-11-17&amp;persons=1"
-                    title="Verfügbarkeit und Buchungsinformationen für Ferienhaus 141 bei H&amp;P Touristik"
-                    loading="lazy"
-                    referrerpolicy="strict-origin-when-cross-origin"
-                ></iframe>
-                <p class="availability-note">Falls H&amp;P die Einbettung in fremde Webseiten nicht erlaubt, kannst du die Verfügbarkeit über „Bei H&amp;P öffnen“ direkt auf der Originalseite prüfen.</p>
-            </article>
+            <div class="availability-legend" aria-label="Kalenderlegende">
+                <span><i class="legend-dot legend-unknown"></i> Datenanbindung folgt</span>
+                <span><i class="legend-dot legend-booked"></i> Belegt</span>
+                <span><i class="legend-dot legend-free"></i> Verfügbar</span>
+            </div>
 
-            <article class="availability-card">
-                <div class="availability-card-heading">
-                    <div><p class="eyebrow">FERIENHAUS</p><h3>136<span>.</span></h3></div>
-                    <a class="text-link" href="https://www.hptouristik.de/schwarzwald/bad-duerrheim/feriendorf-oefingen/ofi-136?from=2026-11-02&amp;to=2026-11-09&amp;persons=1" target="_blank" rel="noopener noreferrer">Bei H&amp;P öffnen <span aria-hidden="true">↗</span></a>
-                </div>
-                <iframe
-                    class="availability-frame"
-                    src="https://www.hptouristik.de/schwarzwald/bad-duerrheim/feriendorf-oefingen/ofi-136?from=2026-11-02&amp;to=2026-11-09&amp;persons=1"
-                    title="Verfügbarkeit und Buchungsinformationen für Ferienhaus 136 bei H&amp;P Touristik"
-                    loading="lazy"
-                    referrerpolicy="strict-origin-when-cross-origin"
-                ></iframe>
-                <p class="availability-note">Falls H&amp;P die Einbettung in fremde Webseiten nicht erlaubt, kannst du die Verfügbarkeit über „Bei H&amp;P öffnen“ direkt auf der Originalseite prüfen.</p>
-            </article>
+            <div class="availability-calendars">
+                <article class="availability-card availability-calendar-card" data-calendar-house="141">
+                    <div class="availability-card-heading">
+                        <div><p class="eyebrow">HAUS LIEBLINGSPLATZ</p><h3>141<span>.</span></h3></div>
+                        <a class="text-link" href="https://www.hptouristik.de/schwarzwald/bad-duerrheim/feriendorf-oefingen/ofi-141" target="_blank" rel="noopener noreferrer">Bei H&amp;P buchen <span aria-hidden="true">↗</span></a>
+                    </div>
+                    <div class="calendar-toolbar">
+                        <button class="calendar-nav" type="button" data-calendar-prev aria-label="Vorheriger Monat">←</button>
+                        <h4 class="calendar-month" data-calendar-month aria-live="polite"></h4>
+                        <button class="calendar-nav" type="button" data-calendar-next aria-label="Nächster Monat">→</button>
+                    </div>
+                    <div class="calendar-grid calendar-weekdays" aria-hidden="true">
+                        <span>Mo</span><span>Di</span><span>Mi</span><span>Do</span><span>Fr</span><span>Sa</span><span>So</span>
+                    </div>
+                    <div class="calendar-grid calendar-days" data-calendar-days aria-label="Belegungskalender Ferienhaus 141"></div>
+                    <p class="availability-note" data-calendar-status>iCal-Anbindung noch nicht konfiguriert. Es werden keine Verfügbarkeiten angenommen.</p>
+                </article>
+
+                <article class="availability-card availability-calendar-card" data-calendar-house="136">
+                    <div class="availability-card-heading">
+                        <div><p class="eyebrow">HAUS WALDBLICK</p><h3>136<span>.</span></h3></div>
+                        <a class="text-link" href="https://www.hptouristik.de/schwarzwald/bad-duerrheim/feriendorf-oefingen/ofi-136" target="_blank" rel="noopener noreferrer">Bei H&amp;P buchen <span aria-hidden="true">↗</span></a>
+                    </div>
+                    <div class="calendar-toolbar">
+                        <button class="calendar-nav" type="button" data-calendar-prev aria-label="Vorheriger Monat">←</button>
+                        <h4 class="calendar-month" data-calendar-month aria-live="polite"></h4>
+                        <button class="calendar-nav" type="button" data-calendar-next aria-label="Nächster Monat">→</button>
+                    </div>
+                    <div class="calendar-grid calendar-weekdays" aria-hidden="true">
+                        <span>Mo</span><span>Di</span><span>Mi</span><span>Do</span><span>Fr</span><span>Sa</span><span>So</span>
+                    </div>
+                    <div class="calendar-grid calendar-days" data-calendar-days aria-label="Belegungskalender Ferienhaus 136"></div>
+                    <p class="availability-note" data-calendar-status>iCal-Anbindung noch nicht konfiguriert. Es werden keine Verfügbarkeiten angenommen.</p>
+                </article>
+            </div>
         </section>
-
 
         <section class="location-section section-shell" id="lage">
             <div class="section-heading">
