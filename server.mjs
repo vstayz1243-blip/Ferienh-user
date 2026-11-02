@@ -101,7 +101,7 @@ function collectEventDates(event, rangeStart, rangeEnd, bookedDates) {
 
 function parseCalendar(icsText) {
     const parsed = ICAL.parse(icsText);
-    const calendar = new ICAL.Component(parsed);
+    const calendar = new ICAL.Component(parsed[1]);
     const components = calendar.getAllSubcomponents('vevent');
     const events = components.map((component) => new ICAL.Event(component));
     const masters = events.filter((event) => !event.isRecurrenceException());
