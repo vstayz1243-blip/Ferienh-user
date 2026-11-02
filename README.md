@@ -45,7 +45,7 @@ Responsive website for the two holiday homes in Feriendorf Öfingen, including l
 - `GET /api/availability?house=141` – booked dates for house 141
 - `GET /api/availability?house=136` – booked dates for house 136
 
-The server fetches and parses the H&P iCal feeds. The browser never receives the private feed URLs. Results are cached in memory for five minutes to avoid repeatedly requesting the feeds.
+The server fetches and parses the H&P iCal feeds. The browser never receives the private feed URLs. Results are cached in memory for one minute to avoid repeatedly requesting the feeds.
 
 The API returns ISO calendar dates in `bookedDates`. iCalendar end dates are treated as exclusive, as required by the iCalendar standard. Recurring events are expanded within the next 18 months.
 
