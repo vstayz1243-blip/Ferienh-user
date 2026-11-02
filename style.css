@@ -542,3 +542,205 @@ h1 em, h2 em, .detail-hero h1 em {
     .availability-legend { margin-top: -18px; }
     .calendar-day, .calendar-day.is-empty { min-height: 39px; }
 }
+
+
+/* DreiWelten Card promotional section */
+.dreiwelten-section {
+    position: relative;
+    overflow: hidden;
+    padding: 115px 0 105px;
+    color: #f7f7f1;
+    background: #20271f;
+}
+.dreiwelten-section::before {
+    content: "";
+    position: absolute;
+    width: 680px;
+    height: 680px;
+    top: -390px;
+    right: -150px;
+    border: 1px solid rgba(219, 226, 208, .12);
+    border-radius: 50%;
+    box-shadow: 0 0 0 70px rgba(219,226,208,.025), 0 0 0 140px rgba(219,226,208,.02);
+    pointer-events: none;
+}
+.dreiwelten-inner {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1.1fr .9fr;
+    gap: 45px 8%;
+    align-items: center;
+    width: min(1160px, 82%);
+    margin: 0 auto;
+}
+.dreiwelten-copy { max-width: 620px; }
+.dreiwelten-copy .eyebrow { color: #b9c5ad; }
+.dreiwelten-copy h2 {
+    margin: 25px 0 26px;
+    font: 300 clamp(48px, 5.7vw, 76px)/1.02 "Roboto", Arial, sans-serif;
+    letter-spacing: -.065em;
+}
+.dreiwelten-copy h2 em {
+    color: #c5d0b9;
+    font-style: normal;
+    font-weight: 300;
+}
+.dreiwelten-lead {
+    max-width: 560px;
+    margin: 0 0 15px;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.65;
+}
+.dreiwelten-description {
+    max-width: 540px;
+    margin: 0;
+    color: rgba(247,247,241,.7);
+    font-size: 13px;
+    line-height: 1.9;
+}
+.dreiwelten-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 35px;
+    min-height: 56px;
+    margin-top: 30px;
+    padding: 0 21px;
+    border: 1px solid rgba(235,239,229,.55);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color .2s, background .2s, border-color .2s, transform .2s;
+}
+.dreiwelten-link:hover {
+    transform: translateY(-2px);
+    border-color: #d6dfce;
+    background: #d6dfce;
+    color: #20271f;
+}
+.dreiwelten-link span { font-size: 17px; }
+.dreiwelten-note {
+    max-width: 520px;
+    margin: 17px 0 0;
+    color: rgba(247,247,241,.48);
+    font-size: 10px;
+    line-height: 1.7;
+}
+.dreiwelten-highlight {
+    position: relative;
+    display: flex;
+    min-height: 430px;
+    align-items: center;
+    justify-content: center;
+    isolation: isolate;
+}
+.dreiwelten-orbit {
+    position: absolute;
+    z-index: -1;
+    width: 360px;
+    height: 360px;
+    border: 1px solid rgba(202,214,190,.18);
+    border-radius: 50%;
+}
+.dreiwelten-orbit-two { width: 450px; height: 450px; border-color: rgba(202,214,190,.09); }
+.dreiwelten-card-art {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: min(350px, 90%);
+    min-height: 225px;
+    padding: 26px 28px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,.3);
+    border-radius: 3px;
+    background: linear-gradient(135deg, #d7dfcd 0%, #aab99d 52%, #71836e 100%);
+    color: #20271f;
+    box-shadow: 0 28px 70px rgba(0,0,0,.28);
+    transform: rotate(-5deg);
+}
+.dreiwelten-card-art::after {
+    content: "";
+    position: absolute;
+    width: 220px;
+    height: 220px;
+    right: -65px;
+    bottom: -105px;
+    border: 1px solid rgba(32,39,31,.22);
+    border-radius: 50%;
+    box-shadow: 0 0 0 22px rgba(32,39,31,.04), 0 0 0 44px rgba(32,39,31,.04);
+}
+.dreiwelten-card-label, .dreiwelten-card-subtitle { position: relative; z-index: 1; font-size: 8px; font-weight: 600; letter-spacing: 1.7px; }
+.dreiwelten-card-name { position: relative; z-index: 1; font-size: 47px; font-weight: 500; line-height: .83; letter-spacing: -.07em; }
+.dreiwelten-card-name span { color: #f4f4e9; }
+.dreiwelten-card-subtitle { font-size: 7px; letter-spacing: 1.2px; }
+.dreiwelten-count {
+    position: absolute;
+    right: 0;
+    bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 17px;
+    border: 1px solid rgba(235,239,229,.2);
+    background: #303a2f;
+    box-shadow: 0 12px 35px rgba(0,0,0,.2);
+}
+.dreiwelten-count strong { color: #d4dfca; font-size: 39px; font-weight: 300; letter-spacing: -3px; line-height: 1; }
+.dreiwelten-count strong span { font-size: 23px; }
+.dreiwelten-count > span { color: rgba(255,255,255,.8); font-size: 9px; line-height: 1.45; }
+.dreiwelten-free {
+    position: absolute;
+    top: 24px;
+    left: 0;
+    padding: 10px 13px;
+    background: #d5dfcc;
+    color: #283126;
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+}
+.dreiwelten-benefits {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 1px solid rgba(235,239,229,.2);
+}
+.dreiwelten-benefits > div {
+    display: grid;
+    grid-template-columns: 34px 1fr;
+    column-gap: 12px;
+    padding: 24px 24px 0 0;
+}
+.dreiwelten-benefits > div + div { padding-left: 25px; border-left: 1px solid rgba(235,239,229,.2); }
+.dreiwelten-benefits > div > span { grid-row: span 2; color: #aebda3; font-size: 10px; }
+.dreiwelten-benefits strong { font-size: 13px; font-weight: 500; }
+.dreiwelten-benefits small { margin-top: 6px; color: rgba(247,247,241,.58); font-size: 10px; line-height: 1.5; }
+@media (max-width: 850px) {
+    .dreiwelten-inner { width: 86%; grid-template-columns: 1fr  .8fr; gap: 35px 4%; }
+    .dreiwelten-highlight { min-height: 360px; }
+    .dreiwelten-card-art { min-height: 195px; padding: 22px; }
+    .dreiwelten-card-name { font-size: 39px; }
+    .dreiwelten-orbit { width: 290px; height: 290px; }
+    .dreiwelten-orbit-two { width: 360px; height: 360px; }
+    .dreiwelten-count { right: -5px; bottom: 12px; }
+}
+@media (max-width: 650px) {
+    .dreiwelten-section { padding: 85px 0 78px; }
+    .dreiwelten-inner { display: flex; flex-direction: column; align-items: stretch; width: 86%; gap: 25px; }
+    .dreiwelten-copy h2 { font-size: clamp(45px, 10vw, 62px); }
+    .dreiwelten-lead { font-size: 16px; }
+    .dreiwelten-highlight { min-height: 335px; margin: 0 -4%; }
+    .dreiwelten-card-art { width: 290px; min-height: 190px; }
+    .dreiwelten-card-name { font-size: 40px; }
+    .dreiwelten-orbit { width: 280px; height: 280px; }
+    .dreiwelten-orbit-two { width: 340px; height: 340px; }
+    .dreiwelten-count { right: 0; bottom: 5px; }
+    .dreiwelten-free { top: 10px; left: 0; }
+    .dreiwelten-benefits { grid-template-columns: 1fr; }
+    .dreiwelten-benefits > div, .dreiwelten-benefits > div + div { padding: 18px 0; border-left: 0; }
+    .dreiwelten-benefits > div + div { border-top: 1px solid rgba(235,239,229,.16); }
+}
