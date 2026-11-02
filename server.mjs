@@ -68,20 +68,30 @@ function addEventDays(bookedDates, start, end, rangeStart, rangeEnd) {
     }
 }
 
-function collectEventDates(component, rangeStart, rangeEnd, bookedDates) {
-    const event = new ICAL.Event(component);
+function isCancelled(event) {
+    const status = event.component.getFirstPropertyValue('status');
+    return String(status || '').toUpperCase() === 'CANCELLED';
+}
+
+function collectEventDates(event, rangeStart, rangeEnd, bookedDates) {
+    if (isCancelled(event)) return;
 
     if (event.isRecurring()) {
-        const iterator = event.iterator(rangeStart);
+        // Expand from the original DTSTART. Starting the iterator at rangeStart
+        // would change the recurrence anchor and can shift weekly/monthly rules.
+        const iterator = event.iterator();
         let occurrence;
         let safetyCounter = 0;
 
-        while ((occurrence = iterator.next()) && safetyCounter < 2000) {
+        while ((occurrence = iterator.next()) && safetyCounter < 100000) {
             safetyCounter += 1;
             if (occurrence.compare(rangeEnd) >= 0) break;
+            if (occurrence.compare(rangeStart) < 0) continue;
 
             const details = event.getOccurrenceDetails(occurrence);
-            addEventDays(bookedDates, details.startDate, details.endDate, rangeStart, rangeEnd);
+            if (!isCancelled(details.item)) {
+                addEventDays(bookedDates, details.startDate, details.endDate, rangeStart, rangeEnd);
+            }
         }
         return;
     }
@@ -92,7 +102,10 @@ function collectEventDates(component, rangeStart, rangeEnd, bookedDates) {
 function parseCalendar(icsText) {
     const parsed = ICAL.parse(icsText);
     const calendar = new ICAL.Component(parsed);
-    const events = calendar.getAllSubcomponents('vevent');
+    const components = calendar.getAllSubcomponents('vevent');
+    const events = components.map((component) => new ICAL.Event(component));
+    const masters = events.filter((event) => !event.isRecurrenceException());
+    const exceptions = events.filter((event) => event.isRecurrenceException());
     const now = new Date();
     const start = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
     const end = new Date(Date.UTC(now.getFullYear(), now.getMonth() + RANGE_MONTHS, now.getDate()));
@@ -100,9 +113,22 @@ function parseCalendar(icsText) {
     const rangeEnd = ICAL.Time.fromJSDate(end, true);
     const bookedDates = new Set();
 
-    for (const component of events) {
+    // Attach RECURRENCE-ID exceptions to their master events so moved and
+    // cancelled occurrences are handled by ICAL.js during expansion.
+    for (const exception of exceptions) {
+        const master = masters.find((event) => event.uid === exception.uid && event.isRecurring());
+        if (master) {
+            try {
+                master.relateException(exception);
+            } catch (error) {
+                console.warn('Skipping an invalid iCal recurrence exception:', error.message);
+            }
+        }
+    }
+
+    for (const event of masters) {
         try {
-            collectEventDates(component, rangeStart, rangeEnd, bookedDates);
+            collectEventDates(event, rangeStart, rangeEnd, bookedDates);
         } catch (error) {
             // Ignore malformed individual events, but keep valid events from the feed.
             console.warn('Skipping an invalid iCal event:', error.message);
