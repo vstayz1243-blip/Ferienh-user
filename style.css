@@ -509,3 +509,36 @@ h1 em, h2 em, .detail-hero h1 em {
  .calendar-day { min-height:39px; font-size:11px; }
  .calendar-grid { gap:4px; }
 }
+
+
+/* Live availability calendar states */
+.availability-legend { display: flex; flex-wrap: wrap; gap: 14px 26px; margin: -38px 0 38px; color: var(--muted); font-size: 10px; }
+.availability-legend > span { display: inline-flex; align-items: center; gap: 8px; }
+.legend-dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; }
+.legend-unknown { background: #b8bbb2; }
+.legend-booked { background: #b96d62; }
+.legend-free { background: #83977b; }
+.availability-calendars { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 55px; }
+.availability-calendars .availability-card { min-width: 0; }
+.calendar-toolbar { display: grid; grid-template-columns: 38px 1fr 38px; align-items: center; gap: 12px; margin: 24px 0 18px; }
+.calendar-month { margin: 0; text-align: center; text-transform: capitalize; font: 500 17px var(--display); }
+.calendar-nav { width: 38px; height: 38px; border: 1px solid var(--line); border-radius: 50%; background: transparent; color: var(--ink); cursor: pointer; transition: background .2s, color .2s; }
+.calendar-nav:hover { background: var(--ink); color: white; }
+.calendar-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); text-align: center; }
+.calendar-weekdays { margin-bottom: 8px; color: var(--muted); font-size: 10px; font-weight: 600; }
+.calendar-weekdays span { padding: 8px 0; }
+.calendar-days { row-gap: 5px; }
+.calendar-day { min-height: 42px; display: grid; place-items: center; border-radius: 50%; font-size: 11px; }
+.calendar-day.is-empty { min-height: 42px; }
+.calendar-day.is-free { background: #e7ede4; color: #40533d; }
+.calendar-day.is-booked { background: #f2e2df; color: #87483f; text-decoration: line-through; }
+.calendar-day.is-unknown { background: #eeefeb; color: #85897f; }
+.calendar-day.is-past { color: #b2b5ad; }
+.calendar-day.is-today { outline: 1px solid var(--ink); outline-offset: 2px; font-weight: 700; }
+.availability-note[data-state="error"] { color: #a34d43; }
+.availability-note[data-state="success"] { color: #667b60; }
+@media (max-width: 760px) {
+    .availability-calendars { grid-template-columns: 1fr; gap: 20px; }
+    .availability-legend { margin-top: -18px; }
+    .calendar-day, .calendar-day.is-empty { min-height: 39px; }
+}
