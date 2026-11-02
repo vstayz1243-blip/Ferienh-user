@@ -1,0 +1,16 @@
+{
+  "name": "ferienhaeuser-schwarzwald",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20.6"
+  },
+  "scripts": {
+    "start": "node --env-file=.env server.mjs",
+    "start:without-env-file": "node server.mjs"
+  },
+  "dependencies": {
+    "ical.js": "^2.2.1"
+  }
+}
