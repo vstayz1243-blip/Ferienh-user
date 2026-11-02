@@ -744,3 +744,36 @@ h1 em, h2 em, .detail-hero h1 em {
     .dreiwelten-benefits > div, .dreiwelten-benefits > div + div { padding: 18px 0; border-left: 0; }
     .dreiwelten-benefits > div + div { border-top: 1px solid rgba(235,239,229,.16); }
 }
+
+/* DreiWelten Card is a primary homepage selling point directly below the hero */
+.dreiwelten-section {
+    padding-top: 78px;
+    padding-bottom: 72px;
+}
+.dreiwelten-inner {
+    gap: 30px 7%;
+}
+.dreiwelten-highlight {
+    min-height: 365px;
+}
+.dreiwelten-benefits > div {
+    padding-top: 19px;
+}
+@media (max-width: 850px) {
+    .dreiwelten-section {
+        padding-top: 64px;
+        padding-bottom: 60px;
+    }
+    .dreiwelten-highlight {
+        min-height: 330px;
+    }
+}
+@media (max-width: 650px) {
+    .dreiwelten-section {
+        padding-top: 54px;
+        padding-bottom: 52px;
+    }
+    .dreiwelten-highlight {
+        min-height: 300px;
+    }
+}
