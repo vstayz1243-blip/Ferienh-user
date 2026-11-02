@@ -50,12 +50,12 @@ function dateKey(time) {
 function addEventDays(bookedDates, start, end, rangeStart, rangeEnd) {
     if (!start || !end) return;
 
-    // iCalendar DTEND is exclusive. For timed events ending after midnight,
-    // the end date itself is also occupied.
+    // Treat the calendar end date as the checkout boundary (exclusive).
+    // A same-day timed event still occupies its start date.
     const cursor = new Date(Date.UTC(start.year, start.month - 1, start.day));
     const endBoundary = new Date(Date.UTC(end.year, end.month - 1, end.day));
-    const hasTimeOnEndDate = !end.isDate && (end.hour !== 0 || end.minute !== 0 || end.second !== 0);
-    if (hasTimeOnEndDate) endBoundary.setUTCDate(endBoundary.getUTCDate() + 1);
+    const sameCalendarDay = start.year === end.year && start.month === end.month && start.day === end.day;
+    if (sameCalendarDay && !end.isDate) endBoundary.setUTCDate(endBoundary.getUTCDate() + 1);
 
     const lowerBound = new Date(Date.UTC(rangeStart.year, rangeStart.month - 1, rangeStart.day));
     const upperBound = new Date(Date.UTC(rangeEnd.year, rangeEnd.month - 1, rangeEnd.day));
