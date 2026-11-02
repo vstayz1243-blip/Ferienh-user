@@ -6,7 +6,7 @@ import ICAL from 'ical.js';
 
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
 const PORT = Number(process.env.PORT || 3000);
-const CACHE_TTL_MS = 5 * 60 * 1000;
+const CACHE_TTL_MS = 60 * 1000;
 const FETCH_TIMEOUT_MS = 12_000;
 const RANGE_MONTHS = 18;
 
