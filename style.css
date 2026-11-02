@@ -475,3 +475,37 @@ h1 em, h2 em, .detail-hero h1 em {
 @media (max-width: 650px) {
     .house-info > .house-route-action { width: 100%; min-width: 0; margin: 12px 0 0; }
 }
+
+
+/* Own iCal-ready availability calendars */
+.availability-legend { display:flex; flex-wrap:wrap; gap:18px 28px; margin:-35px 0 42px; color:var(--muted); font-size:11px; }
+.availability-legend span { display:inline-flex; align-items:center; gap:8px; }
+.legend-dot { width:9px; height:9px; display:inline-block; border-radius:50%; }
+.legend-unknown { background:#c9c9bf; }
+.legend-booked { background:#b77d72; }
+.legend-free { background:#9ba98f; }
+.availability-calendars { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:34px; }
+.availability-calendar-card { min-width:0; margin:0; padding:30px; border:1px solid var(--line); background:rgba(255,255,255,.34); }
+.availability-calendar-card .availability-card-heading { align-items:center; }
+.calendar-toolbar { display:grid; grid-template-columns:42px 1fr 42px; align-items:center; gap:12px; margin:22px 0 18px; }
+.calendar-month { margin:0; text-align:center; font-size:17px; font-weight:500; text-transform:capitalize; }
+.calendar-nav { width:42px; height:42px; border:1px solid var(--line); background:transparent; color:var(--ink); cursor:pointer; font-size:20px; transition:background .2s,color .2s; }
+.calendar-nav:hover { background:var(--ink); color:#fff; }
+.calendar-grid { display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:5px; }
+.calendar-weekdays { margin-bottom:8px; color:var(--muted); text-align:center; font-size:10px; font-weight:500; }
+.calendar-weekdays span { padding:8px 0; }
+.calendar-day { min-height:42px; display:grid; place-items:center; border-radius:2px; background:#e7e7df; color:#777b72; font-size:12px; }
+.calendar-day.is-empty { background:transparent; }
+.calendar-day.is-today { outline:1px solid #8d9b81; outline-offset:-2px; color:var(--ink); font-weight:700; }
+.calendar-day.is-booked { background:#eadbd7; color:#80564d; }
+.calendar-day.is-free { background:#dfe6d9; color:#4f6249; }
+.calendar-day.is-unknown { background:#e7e7df; color:#777b72; }
+.calendar-day[aria-label] { cursor:default; }
+.availability-calendar-card .availability-note { min-height:34px; margin-top:20px; }
+@media(max-width:900px) { .availability-calendars { grid-template-columns:1fr; gap:24px; } }
+@media(max-width:650px) {
+ .availability-legend { margin:-18px 0 30px; gap:12px 18px; font-size:10px; }
+ .availability-calendar-card { padding:22px 17px; }
+ .calendar-day { min-height:39px; font-size:11px; }
+ .calendar-grid { gap:4px; }
+}
