@@ -53,16 +53,11 @@ const getNights = () => {
     const endDate = new Date(departure.value + 'T00:00:00');
     return Math.round((endDate - startDate) / 86400000);
 };
-const getBookingUrl = () => {
-    const housePath = houseSelect?.value === 'Ferienhaus 141' ? 'ofi-141'
-        : houseSelect?.value === 'Ferienhaus 136' ? 'ofi-136' : null;
-    if (!housePath) return 'https://www.hptouristik.de/schwarzwald/bad-duerrheim/feriendorf-oefingen/';
-    const url = new URL('https://www.hptouristik.de/schwarzwald/bad-duerrheim/feriendorf-oefingen/' + housePath);
-    if (arrival?.value) url.searchParams.set('from', arrival.value);
-    if (departure?.value) url.searchParams.set('to', departure.value);
-    if (guests?.value) url.searchParams.set('persons', guests.value);
-    return url.toString();
+const BOOKING_URLS = {
+    'Ferienhaus 141': 'https://etlink.hptouristik.de/?id=1828ce058f3e46a6b617ef0608db5af8',
+    'Ferienhaus 136': 'https://etlink.hptouristik.de/?id=62e926f3435840d9977847435863ebc0'
 };
+const getBookingUrl = () => BOOKING_URLS[houseSelect?.value] || 'https://www.hptouristik.de/schwarzwald/bad-duerrheim/feriendorf-oefingen/';
 const updateBookingSummary = () => {
     if (!arrival || !departure) return;
     const nights = getNights();
@@ -195,13 +190,39 @@ document.querySelectorAll('#year, [data-year]').forEach((node) => node.textConte
 })();
 
 
-// Frontend calendar shell. Dates remain explicitly unknown until server-side iCal data is connected.
+// Live availability calendars. iCal URLs stay server-side; the browser only calls our own API.
 (() => {
     const now = new Date();
+    const availabilityCache = new Map();
+
+    const loadAvailability = async (house) => {
+        if (availabilityCache.has(house)) return availabilityCache.get(house);
+        const request = fetch(`/api/availability?house=${encodeURIComponent(house)}`, {
+            headers: { Accept: 'application/json' },
+            cache: 'no-store'
+        }).then(async (response) => {
+            const payload = await response.json().catch(() => ({}));
+            if (!response.ok) throw new Error(payload.error || 'Verfügbarkeitsdaten konnten nicht geladen werden.');
+            return payload;
+        });
+        availabilityCache.set(house, request);
+        try {
+            return await request;
+        } catch (error) {
+            availabilityCache.delete(house);
+            throw error;
+        }
+    };
+
     document.querySelectorAll('[data-calendar-house]').forEach((card) => {
+        const house = card.dataset.calendarHouse;
         let displayedMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+        let bookedDates = new Set();
+        let dataLoaded = false;
         const monthLabel = card.querySelector('[data-calendar-month]');
         const daysContainer = card.querySelector('[data-calendar-days]');
+        const status = card.querySelector('[data-calendar-status]');
+
         const render = () => {
             const year = displayedMonth.getFullYear();
             const month = displayedMonth.getMonth();
@@ -209,23 +230,58 @@ document.querySelectorAll('#year, [data-year]').forEach((node) => node.textConte
             daysContainer.replaceChildren();
             const firstWeekday = (new Date(year, month, 1).getDay() + 6) % 7;
             const daysInMonth = new Date(year, month + 1, 0).getDate();
+
             for (let i = 0; i < firstWeekday; i++) {
                 const blank = document.createElement('span');
                 blank.className = 'calendar-day is-empty';
                 blank.setAttribute('aria-hidden', 'true');
                 daysContainer.append(blank);
             }
+
             for (let day = 1; day <= daysInMonth; day++) {
+                const date = new Date(year, month, day);
+                const key = [year, String(month + 1).padStart(2, '0'), String(day).padStart(2, '0')].join('-');
                 const cell = document.createElement('span');
-                cell.className = 'calendar-day is-unknown';
+                const isBooked = bookedDates.has(key);
+                const isPast = date < new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                cell.className = 'calendar-day ' + (!dataLoaded ? 'is-unknown' : isBooked ? 'is-booked' : isPast ? 'is-past' : 'is-free');
                 cell.textContent = String(day);
-                cell.setAttribute('aria-label', day + '. ' + monthLabel.textContent + ': Belegungsdaten noch nicht verfügbar');
+                const state = !dataLoaded ? 'Daten nicht verfügbar' : isBooked ? 'Belegt' : isPast ? 'Vergangenheit' : 'Laut H&P iCal frei';
+                cell.setAttribute('aria-label', `${day}. ${monthLabel.textContent}: ${state}`);
                 if (year === now.getFullYear() && month === now.getMonth() && day === now.getDate()) cell.classList.add('is-today');
                 daysContainer.append(cell);
             }
         };
-        card.querySelector('[data-calendar-prev]')?.addEventListener('click', () => { displayedMonth.setMonth(displayedMonth.getMonth() - 1); render(); });
-        card.querySelector('[data-calendar-next]')?.addEventListener('click', () => { displayedMonth.setMonth(displayedMonth.getMonth() + 1); render(); });
+
+        const setStatus = (message, state = '') => {
+            if (!status) return;
+            status.textContent = message;
+            status.dataset.state = state;
+        };
+
+        card.querySelector('[data-calendar-prev]')?.addEventListener('click', () => {
+            displayedMonth = new Date(displayedMonth.getFullYear(), displayedMonth.getMonth() - 1, 1);
+            render();
+        });
+        card.querySelector('[data-calendar-next]')?.addEventListener('click', () => {
+            displayedMonth = new Date(displayedMonth.getFullYear(), displayedMonth.getMonth() + 1, 1);
+            render();
+        });
+
         render();
+        loadAvailability(house).then((payload) => {
+            bookedDates = new Set(payload.bookedDates || []);
+            dataLoaded = true;
+            render();
+            const fetchedAt = payload.fetchedAt ? new Date(payload.fetchedAt) : null;
+            const time = fetchedAt && !Number.isNaN(fetchedAt.getTime())
+                ? new Intl.DateTimeFormat('de-DE', { dateStyle: 'short', timeStyle: 'short' }).format(fetchedAt)
+                : '';
+            setStatus(`Live-Daten von H&P geladen${time ? ' · Stand: ' + time : ''}. Freie Tage sind unverbindlich; maßgeblich ist die Buchungsbestätigung von H&P.`, 'success');
+        }).catch((error) => {
+            dataLoaded = false;
+            render();
+            setStatus('Live-Daten aktuell nicht erreichbar. Bitte Verfügbarkeit direkt bei H&P prüfen. (' + error.message + ')', 'error');
+        });
     });
 })();
