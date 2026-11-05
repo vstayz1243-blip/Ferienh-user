@@ -110,7 +110,7 @@ test('health endpoint returns HTTP 200', async () => {
 test('availability endpoint parses iCalendar and caches the result', async () => {
     const firstResponse = await fetch(baseUrl + '/api/availability?house=141');
     const first = await firstResponse.json();
-    assert.equal(firstResponse.status, 200, JSON.stringify(first));
+    assert.equal(firstResponse.status, 200, JSON.stringify(first) + '\\n' + stderr);
     const startIso = `${validDate.slice(0, 4)}-${validDate.slice(4, 6)}-${validDate.slice(6, 8)}`;
     const checkoutIso = `${checkoutDate.slice(0, 4)}-${checkoutDate.slice(4, 6)}-${checkoutDate.slice(6, 8)}`;
 
