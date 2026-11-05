@@ -1,4 +1,5 @@
-from datetime import date, datetime, timedelta, timezone
+from datetime import date, datetime, timezone
+from dateutil.relativedelta import relativedelta
 from typing import Literal
 
 import httpx
@@ -103,7 +104,7 @@ async def availability(
     try:
         ical_text = response.content.decode("utf-8-sig")
         today = date.today()
-        range_end = (today.replace(day=1) + timedelta(days=32 * settings.availability_range_months)).replace(day=1)
+        range_end = today + relativedelta(months=settings.availability_range_months)
         booked_dates = parse_ical_booked_dates(ical_text, today, range_end)
     except UnicodeDecodeError as exc:
         raise HTTPException(status_code=502, detail="Der H&P-iCal-Feed hat eine ungültige Textkodierung.") from exc
