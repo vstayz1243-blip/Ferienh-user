@@ -1,15 +1,14 @@
 from datetime import date, datetime, timezone
 from dateutil.relativedelta import relativedelta
-from typing import Literal
 
 import httpx
-from fastapi import FastAPI, HTTPException, Query, Request
+from fastapi import Depends, FastAPI, HTTPException, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from .config import get_settings
-from .models import AvailabilityResponse, ErrorResponse, HealthResponse
+from .models import AvailabilityQuery, AvailabilityResponse, ErrorResponse, HealthResponse
 from .services.ical_service import CalendarFeedError, parse_ical_booked_dates
 
 settings = get_settings()
@@ -68,9 +67,8 @@ async def health() -> HealthResponse:
     response_model=AvailabilityResponse,
     responses={400: {"model": ErrorResponse}, 502: {"model": ErrorResponse}, 503: {"model": ErrorResponse}},
 )
-async def availability(
-    house: Literal["141", "136"] = Query(..., description="Ferienhausnummer: 141 oder 136"),
-) -> AvailabilityResponse:
+async def availability(query: AvailabilityQuery = Depends()) -> AvailabilityResponse:
+    house = query.house
     now = datetime.now(timezone.utc)
     cached_entry = _cache.get(house)
     if cached_entry and (now - cached_entry[0]).total_seconds() < settings.cache_ttl_seconds:
