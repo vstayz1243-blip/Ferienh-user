@@ -51,18 +51,19 @@ before(async () => {
     checkout.setUTCDate(checkout.getUTCDate() + 2);
     checkoutDate = checkout.toISOString().slice(0, 10).replaceAll('-', '');
 
-    const ics = `BEGIN:VCALENDAR\r\n
-VERSION:2.0\r\n
-PRODID:-//Ferienhaus Tests//DE\r\n
-BEGIN:VEVENT\r\n
-UID:integration-booking@example.test\r\n
-DTSTAMP:20260101T120000Z\r\n
-DTSTART;VALUE=DATE:${validDate}\r\n
-DTEND;VALUE=DATE:${checkoutDate}\r\n
-SUMMARY:Test booking\r\n
-END:VEVENT\r\n
-END:VCALENDAR\r\n
-`;
+    const ics = [
+        'BEGIN:VCALENDAR',
+        'VERSION:2.0',
+        'PRODID:-//Ferienhaus Tests//DE',
+        'BEGIN:VEVENT',
+        'UID:integration-booking@example.test',
+        'DTSTAMP:20260101T120000Z',
+        `DTSTART;VALUE=DATE:${validDate}`,
+        `DTEND;VALUE=DATE:${checkoutDate}`,
+        'SUMMARY:Test booking',
+        'END:VEVENT',
+        'END:VCALENDAR'
+    ].join('\\r\\n');
 
     feedServer = createServer((request, response) => {
         response.writeHead(200, { 'Content-Type': 'text/calendar; charset=utf-8' });
