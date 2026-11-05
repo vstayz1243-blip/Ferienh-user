@@ -15,7 +15,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - run: npm install\n      - run: npm test
+      - run: npm install
+      - run: npm test
 
   python:
     name: FastAPI and iCalendar tests
