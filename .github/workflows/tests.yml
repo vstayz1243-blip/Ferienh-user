@@ -16,6 +16,7 @@ jobs:
         with:
           node-version: 22
       - run: npm install
+      - run: node --check server.mjs && node --check site.js
       - run: npm test
 
   python:
