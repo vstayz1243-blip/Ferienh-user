@@ -222,7 +222,7 @@ async function handleApi(request, response, url) {
     try {
         sendJson(response, 200, await getAvailability(house));
     } catch (error) {
-        console.error(`Availability API error for house ${house}:`, error.message);
+        console.error(`Availability API error for house ${house}:`, error.message, error.cause?.stack || '');
         sendJson(response, error.statusCode || 500, { error: error.message });
     }
 }
