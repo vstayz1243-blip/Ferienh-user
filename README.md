@@ -65,3 +65,11 @@ The website and `/api/availability` must be served from the same origin so the b
 ## Booking
 
 The booking buttons link directly to the H&P booking links for the respective houses. Availability displayed on this website is indicative; H&P's booking system and its booking confirmation remain authoritative.
+
+## Images and licensing
+
+The website currently uses Unsplash-hosted stock photos as temporary illustrative imagery. The homepage house cards each contain a five-image gallery; the two property detail pages also contain five-image galleries. The images are not photographs of the actual holiday homes.
+
+A public image-credit page is available at `bildnachweise.html`. The photo assets were audited across the HTML and CSS files; all externally loaded photographic assets found in the repository are served from `images.unsplash.com`. The standard Unsplash License permits free commercial and non-commercial use without mandatory attribution. It is not a public-domain dedication. Rights in recognizable people, trademarks, logos, and depicted artworks may require separate clearance. Review the current [Unsplash License](https://unsplash.com/de/lizenz) and [Terms](https://unsplash.com/terms) before publication.
+
+Replace the stock photos with original property photos before presenting the galleries as factual representations of the houses.
