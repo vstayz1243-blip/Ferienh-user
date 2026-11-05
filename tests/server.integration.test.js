@@ -140,9 +140,21 @@ test('unsupported API method is rejected with HTTP 405', async () => {
     assert.equal(response.status, 405);
 });
 
-test('static homepage is served successfully', async () => {
-    const response = await fetch(baseUrl + '/');
-    assert.equal(response.status, 200);
-    assert.match(response.headers.get('content-type'), /text\/html/);
-    assert.match(await response.text(), /Ferienhaus/i);
+test('website pages and frontend assets are served successfully', async () => {
+    const paths = [
+        '/',
+        '/ferienhaus-141.html',
+        '/ferienhaus-136.html',
+        '/impressum.html',
+        '/datenschutz.html',
+        '/bildnachweise.html',
+        '/site.js',
+        '/style.css'
+    ];
+
+    for (const path of paths) {
+        const response = await fetch(baseUrl + path);
+        assert.equal(response.status, 200, `Expected ${path} to be served`);
+        if (path === '/') assert.match(await response.text(), /Ferienhaus/i);
+    }
 });
