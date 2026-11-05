@@ -63,7 +63,7 @@ before(async () => {
         'SUMMARY:Test booking',
         'END:VEVENT',
         'END:VCALENDAR'
-    ].join('\\r\\n');
+    ].join('\r\n');
 
     feedServer = createServer((request, response) => {
         response.writeHead(200, { 'Content-Type': 'text/calendar; charset=utf-8' });
