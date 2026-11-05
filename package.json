@@ -8,7 +8,8 @@
   },
   "scripts": {
     "start": "node --env-file=.env server.mjs",
-    "start:without-env-file": "node server.mjs"
+    "start:without-env-file": "node server.mjs",
+    "test": "node --test"
   },
   "dependencies": {
     "ical.js": "^2.2.1"
