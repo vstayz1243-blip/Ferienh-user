@@ -29,7 +29,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .brand-mark { font: 800 27px/1 var(--display); letter-spacing: -2px; }
 .brand-mark span { color: #8d9b81; padding: 0 2px; font-weight: 400; }
 .brand-caption { font-size: 8px; letter-spacing: 2px; font-weight: 700; color: #777b72; }
-.main-navigation { position: absolute; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: clamp(20px, 2.4vw, 38px); white-space: nowrap; font-size: 14px; font-weight: 600; }
+.main-navigation { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: flex; align-items: center; gap: clamp(20px, 2.4vw, 38px); white-space: nowrap; font-size: 14px; font-weight: 600; }
 .main-navigation > a:not(.nav-cta) { transition: opacity .2s; }
 .main-navigation > a:not(.nav-cta):hover { opacity: .55; }
 .nav-cta { padding: 13px 17px; border: 1px solid #bfc3b8; transition: background .2s, color .2s; }
@@ -225,7 +225,7 @@ h1 em, h2 em { font-family: var(--serif); font-weight: 400; letter-spacing: -.06
 @keyframes heroReveal { from { transform: scale(1.07); opacity: .7; } to { transform: scale(1.015); opacity: 1; } }
 
  
-@media (max-width: 1000px) {
+@media (max-width: 1050px) {
     .site-header { height: 76px; padding-inline: 5%; }
     .menu-toggle {
         width: 42px; height: 42px; display: flex; flex-direction: column;
