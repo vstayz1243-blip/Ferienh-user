@@ -890,3 +890,119 @@ h1 em, h2 em, .detail-hero h1 em {
     font: 600 13px var(--display);
     letter-spacing: 0;
 }
+
+
+/* Single-image house galleries with discreet edge-hover navigation */
+.house-gallery.gallery-carousel,
+.photo-gallery.gallery-carousel {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    isolation: isolate;
+    aspect-ratio: 16 / 10;
+    background: #e8e9e2;
+}
+.house-gallery.gallery-carousel .house-gallery-item,
+.photo-gallery.gallery-carousel .gallery-item {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: scale(1.015);
+    transition: opacity .65s ease, transform 1.2s ease, visibility .65s;
+}
+.house-gallery.gallery-carousel .house-gallery-item.is-active,
+.photo-gallery.gallery-carousel .gallery-item.is-active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: scale(1);
+    z-index: 1;
+}
+.house-gallery.gallery-carousel .house-gallery-item img,
+.photo-gallery.gallery-carousel .gallery-item img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.house-gallery.gallery-carousel .image-label,
+.house-gallery.gallery-carousel .house-gallery-count {
+    z-index: 3;
+}
+.gallery-arrow {
+    position: absolute;
+    z-index: 5;
+    top: 0;
+    bottom: 0;
+    display: grid;
+    place-items: center;
+    width: 10%;
+    min-width: 48px;
+    padding: 0;
+    border: 0;
+    background: linear-gradient(90deg, rgba(18,22,18,.38), transparent);
+    color: #fff;
+    opacity: 0;
+    cursor: pointer;
+    pointer-events: none;
+    transition: opacity .2s ease;
+}
+.gallery-arrow span {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border: 1px solid rgba(255,255,255,.7);
+    border-radius: 50%;
+    background: rgba(20,24,20,.24);
+    font: 300 34px/1 "Roboto", Arial, sans-serif;
+}
+.gallery-arrow-prev { left: 0; }
+.gallery-arrow-next {
+    right: 0;
+    background: linear-gradient(270deg, rgba(18,22,18,.38), transparent);
+}
+.gallery-carousel.show-prev-arrow .gallery-arrow-prev,
+.gallery-carousel.show-next-arrow .gallery-arrow-next,
+.gallery-arrow:focus-visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+.gallery-slide-counter {
+    position: absolute;
+    z-index: 4;
+    right: 18px;
+    bottom: 16px;
+    padding: 7px 10px;
+    background: rgba(20,24,20,.58);
+    color: #fff;
+    font-size: 10px;
+    letter-spacing: 1.2px;
+}
+@media (hover: none), (pointer: coarse) {
+    .gallery-arrow {
+        top: auto;
+        bottom: 12px;
+        width: 44px;
+        height: 44px;
+        opacity: 1;
+        pointer-events: auto;
+        background: transparent;
+    }
+    .gallery-arrow-prev { left: 10px; }
+    .gallery-arrow-next { right: 10px; }
+    .gallery-arrow span { width: 38px; height: 38px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .house-gallery.gallery-carousel .house-gallery-item,
+    .photo-gallery.gallery-carousel .gallery-item {
+        transition: none;
+    }
+}
