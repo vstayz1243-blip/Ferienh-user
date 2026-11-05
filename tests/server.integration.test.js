@@ -63,7 +63,7 @@ before(async () => {
         'SUMMARY:Test booking',
         'END:VEVENT',
         'END:VCALENDAR'
-    ].join('\r\n');
+    ].join('\r\n') + '\r\n';
 
     feedServer = createServer((request, response) => {
         response.writeHead(200, { 'Content-Type': 'text/calendar; charset=utf-8' });
@@ -109,8 +109,8 @@ test('health endpoint returns HTTP 200', async () => {
 
 test('availability endpoint parses iCalendar and caches the result', async () => {
     const firstResponse = await fetch(baseUrl + '/api/availability?house=141');
-    assert.equal(firstResponse.status, 200);
     const first = await firstResponse.json();
+    assert.equal(firstResponse.status, 200, JSON.stringify(first));
     const startIso = `${validDate.slice(0, 4)}-${validDate.slice(4, 6)}-${validDate.slice(6, 8)}`;
     const checkoutIso = `${checkoutDate.slice(0, 4)}-${checkoutDate.slice(4, 6)}-${checkoutDate.slice(6, 8)}`;
 
