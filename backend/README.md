@@ -58,7 +58,7 @@ npm start
 - http://127.0.0.1:8000/api/availability?house=136
 - http://127.0.0.1:8000/docs – interaktive Swagger-Oberfläche
 
-Automatisierte Parser-Tests:
+Automatisierte Python-Tests (API, Pydantic-Validierung, CORS, Cache und iCal-Parser):
 
 ```bash
 python -m pytest backend/tests -v
