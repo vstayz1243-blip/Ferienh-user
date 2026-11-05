@@ -869,3 +869,24 @@ h1 em, h2 em, .detail-hero h1 em {
     text-decoration-color: #aeb6a6;
     text-underline-offset: 3px;
 }
+
+/* Keep the compact legal-page navigation visible without a mobile menu control */
+.legal-header .main-navigation {
+    position: absolute;
+    top: 50%;
+    left: auto;
+    right: 6.2%;
+    transform: translateY(-50%);
+    flex-direction: row;
+    gap: 24px;
+    padding: 0;
+    background: transparent;
+    opacity: 1;
+    visibility: visible;
+}
+.legal-header .main-navigation > a:not(.nav-cta) {
+    padding: 0;
+    border: 0;
+    font: 600 13px var(--display);
+    letter-spacing: 0;
+}
