@@ -1,6 +1,6 @@
 from datetime import date
 
-from app.services.ical_service import parse_ical_booked_dates
+from backend.app.services.ical_service import parse_ical_booked_dates
 
 SAMPLE_ICAL = """BEGIN:VCALENDAR
 VERSION:2.0
@@ -39,7 +39,7 @@ def test_all_day_end_date_is_exclusive_and_timed_event_blocks_its_day():
 
 def test_invalid_calendar_is_rejected():
     import pytest
-    from app.services.ical_service import CalendarFeedError
+    from backend.app.services.ical_service import CalendarFeedError
 
     with pytest.raises(CalendarFeedError):
         parse_ical_booked_dates("not an ical feed", date(2026, 1, 1), date(2026, 2, 1))
