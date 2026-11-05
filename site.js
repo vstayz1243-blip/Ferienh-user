@@ -270,6 +270,12 @@ document.querySelectorAll('#year, [data-year]').forEach((node) => node.textConte
 })();
 
 
+// In local development the static Node server runs on :3000 and FastAPI on :8000.
+// Production keeps the same-origin API path.
+const AVAILABILITY_API_BASE = ['localhost', '127.0.0.1'].includes(window.location.hostname)
+    ? 'http://127.0.0.1:8000'
+    : '';
+
 // Live availability calendars. iCal URLs stay server-side; the browser only calls our own API.
 (() => {
     const now = new Date();
@@ -277,12 +283,12 @@ document.querySelectorAll('#year, [data-year]').forEach((node) => node.textConte
 
     const loadAvailability = async (house) => {
         if (availabilityCache.has(house)) return availabilityCache.get(house);
-        const request = fetch(`/api/availability?house=${encodeURIComponent(house)}`, {
+        const request = fetch(`${AVAILABILITY_API_BASE}/api/availability?house=${encodeURIComponent(house)}`, {
             headers: { Accept: 'application/json' },
             cache: 'no-store'
         }).then(async (response) => {
             const payload = await response.json().catch(() => ({}));
-            if (!response.ok) throw new Error(payload.error || 'Verfügbarkeitsdaten konnten nicht geladen werden.');
+            if (!response.ok) throw new Error(payload.error || payload.detail || 'Verfügbarkeitsdaten konnten nicht geladen werden.');
             return payload;
         });
         availabilityCache.set(house, request);
