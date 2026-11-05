@@ -853,3 +853,19 @@ h1 em, h2 em, .detail-hero h1 em {
         min-height: 300px;
     }
 }
+
+/* Image credits page */
+.image-credit-list {
+    max-width: 760px;
+    margin: 18px 0 36px;
+    padding-left: 20px;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 2;
+}
+.image-credit-list a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: #aeb6a6;
+    text-underline-offset: 3px;
+}
