@@ -22,7 +22,14 @@ async function listen(server) {
     return server.address().port;
 }
 
-async function getFreePort() {\n    const server = createServer();\n    const port = await listen(server);\n    await new Promise((resolve) => server.close(resolve));\n    return port;\n}\n\nasync function waitForHealth(url) {
+async function getFreePort() {
+    const server = createServer();
+    const port = await listen(server);
+    await new Promise((resolve) => server.close(resolve));
+    return port;
+}
+
+async function waitForHealth(url) {
     for (let attempt = 0; attempt < 60; attempt += 1) {
         if (appProcess.exitCode !== null) {
             throw new Error(`API process exited early (code ${appProcess.exitCode}): ${stderr}`);
@@ -44,17 +51,17 @@ before(async () => {
     checkout.setUTCDate(checkout.getUTCDate() + 2);
     checkoutDate = checkout.toISOString().slice(0, 10).replaceAll('-', '');
 
-    const ics = `BEGIN:VCALENDAR\r
-VERSION:2.0\r
-PRODID:-//Ferienhaus Tests//DE\r
-BEGIN:VEVENT\r
-UID:integration-booking@example.test\r
-DTSTAMP:20260101T120000Z\r
-DTSTART;VALUE=DATE:${validDate}\r
-DTEND;VALUE=DATE:${checkoutDate}\r
-SUMMARY:Test booking\r
-END:VEVENT\r
-END:VCALENDAR\r
+    const ics = `BEGIN:VCALENDAR\r\n
+VERSION:2.0\r\n
+PRODID:-//Ferienhaus Tests//DE\r\n
+BEGIN:VEVENT\r\n
+UID:integration-booking@example.test\r\n
+DTSTAMP:20260101T120000Z\r\n
+DTSTART;VALUE=DATE:${validDate}\r\n
+DTEND;VALUE=DATE:${checkoutDate}\r\n
+SUMMARY:Test booking\r\n
+END:VEVENT\r\n
+END:VCALENDAR\r\n
 `;
 
     feedServer = createServer((request, response) => {
@@ -62,20 +69,7 @@ END:VCALENDAR\r
         response.end(request.url === '/invalid' ? 'not an ical feed' : ics);
     });
     const feedPort = await listen(feedServer);
-    const appPort = await listen(createServer());
-    // Release the temporary socket; the application binds the selected port.
-    // The short gap is acceptable for local test execution.
-    // eslint-disable-next-line no-unused-vars
-    const unused = appPort;
-    await new Promise((resolve) => feedServer.close(resolve));
-    feedServer = createServer((request, response) => {
-        response.writeHead(200, { 'Content-Type': 'text/calendar; charset=utf-8' });
-        response.end(request.url === '/invalid' ? 'not an ical feed' : ics);
-    });
-    await new Promise((resolve, reject) => {
-        feedServer.once('error', reject);
-        feedServer.listen(feedPort, '127.0.0.1', resolve);
-    });
+    const appPort = await getFreePort();
 
     baseUrl = `http://127.0.0.1:${appPort}`;
     appProcess = spawn(process.execPath, ['server.mjs'], {
@@ -112,13 +106,16 @@ test('health endpoint returns HTTP 200', async () => {
     assert.deepEqual(await response.json(), { status: 'ok' });
 });
 
-test('availability endpoint parses H&P iCalendar and caches the result', async () => {
+test('availability endpoint parses iCalendar and caches the result', async () => {
     const firstResponse = await fetch(baseUrl + '/api/availability?house=141');
     assert.equal(firstResponse.status, 200);
     const first = await firstResponse.json();
+    const startIso = `${validDate.slice(0, 4)}-${validDate.slice(4, 6)}-${validDate.slice(6, 8)}`;
+    const checkoutIso = `${checkoutDate.slice(0, 4)}-${checkoutDate.slice(4, 6)}-${checkoutDate.slice(6, 8)}`;
+
     assert.equal(first.house, '141');
-    assert.equal(first.bookedDates.includes(`${validDate.slice(0, 4)}-${validDate.slice(4, 6)}-${validDate.slice(6, 8)}`), true);
-    assert.equal(first.bookedDates.includes(`${checkoutDate.slice(0, 4)}-${checkoutDate.slice(4, 6)}-${checkoutDate.slice(6, 8)}`), false);
+    assert.equal(first.bookedDates.includes(startIso), true);
+    assert.equal(first.bookedDates.includes(checkoutIso), false);
     assert.equal(first.cached, false);
 
     const secondResponse = await fetch(baseUrl + '/api/availability?house=141');
@@ -126,7 +123,7 @@ test('availability endpoint parses H&P iCalendar and caches the result', async (
     assert.equal((await secondResponse.json()).cached, true);
 });
 
-test('malformed H&P feed returns a controlled 502 response', async () => {
+test('malformed iCalendar feed returns a controlled 502 response', async () => {
     const response = await fetch(baseUrl + '/api/availability?house=136');
     assert.equal(response.status, 502);
     assert.match((await response.json()).error, /valid iCalendar/i);
