@@ -22,7 +22,7 @@ async function listen(server) {
     return server.address().port;
 }
 
-async function waitForHealth(url) {
+async function getFreePort() {\n    const server = createServer();\n    const port = await listen(server);\n    await new Promise((resolve) => server.close(resolve));\n    return port;\n}\n\nasync function waitForHealth(url) {
     for (let attempt = 0; attempt < 60; attempt += 1) {
         if (appProcess.exitCode !== null) {
             throw new Error(`API process exited early (code ${appProcess.exitCode}): ${stderr}`);
