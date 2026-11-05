@@ -114,15 +114,95 @@ form?.addEventListener('submit', (event) => {
     window.location.href = 'mailto:?subject=' + subject + '&body=' + body;
 });
 
-document.querySelectorAll('[data-gallery-image]').forEach((button) => {
-    button.addEventListener('click', () => {
-        const dialog = document.querySelector('#galleryLightbox');
-        const image = dialog?.querySelector('img');
-        if (!dialog || !image) return;
-        image.src = button.dataset.galleryImage;
-        image.alt = button.querySelector('img')?.alt || 'Ferienhaus – vergrößertes Bild';
-        dialog.showModal();
+// Five-second image carousels for the homepage and both house detail pages.
+document.querySelectorAll('.house-gallery, .photo-gallery').forEach((gallery) => {
+    const slides = [...gallery.querySelectorAll('[data-gallery-image]')];
+    if (slides.length < 2) return;
+
+    gallery.classList.add('gallery-carousel');
+    let activeIndex = 0;
+    let autoplayId;
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const previous = document.createElement('button');
+    previous.type = 'button';
+    previous.className = 'gallery-arrow gallery-arrow-prev';
+    previous.setAttribute('aria-label', 'Vorheriges Bild');
+    previous.innerHTML = '<span aria-hidden="true">‹</span>';
+
+    const next = document.createElement('button');
+    next.type = 'button';
+    next.className = 'gallery-arrow gallery-arrow-next';
+    next.setAttribute('aria-label', 'Nächstes Bild');
+    next.innerHTML = '<span aria-hidden="true">›</span>';
+
+    const counter = document.createElement('span');
+    counter.className = 'gallery-slide-counter';
+    counter.setAttribute('aria-live', 'polite');
+
+    gallery.append(previous, next, counter);
+
+    const showSlide = (index) => {
+        activeIndex = (index + slides.length) % slides.length;
+        slides.forEach((slide, slideIndex) => {
+            const active = slideIndex === activeIndex;
+            slide.classList.toggle('is-active', active);
+            slide.setAttribute('aria-hidden', String(!active));
+            slide.tabIndex = active ? 0 : -1;
+        });
+        counter.textContent = String(activeIndex + 1).padStart(2, '0') + ' / ' + String(slides.length).padStart(2, '0');
+    };
+
+    const stopAutoplay = () => {
+        if (autoplayId) window.clearInterval(autoplayId);
+        autoplayId = undefined;
+    };
+    const startAutoplay = () => {
+        stopAutoplay();
+        if (!prefersReducedMotion) autoplayId = window.setInterval(() => showSlide(activeIndex + 1), 5000);
+    };
+
+    previous.addEventListener('click', (event) => {
+        event.stopPropagation();
+        showSlide(activeIndex - 1);
+        startAutoplay();
     });
+    next.addEventListener('click', (event) => {
+        event.stopPropagation();
+        showSlide(activeIndex + 1);
+        startAutoplay();
+    });
+
+    gallery.addEventListener('pointermove', (event) => {
+        const bounds = gallery.getBoundingClientRect();
+        const relativeX = (event.clientX - bounds.left) / bounds.width;
+        gallery.classList.toggle('show-prev-arrow', relativeX <= 0.1);
+        gallery.classList.toggle('show-next-arrow', relativeX >= 0.9);
+    });
+    gallery.addEventListener('pointerleave', () => {
+        gallery.classList.remove('show-prev-arrow', 'show-next-arrow');
+    });
+    gallery.addEventListener('mouseenter', stopAutoplay);
+    gallery.addEventListener('mouseleave', startAutoplay);
+    gallery.addEventListener('focusin', stopAutoplay);
+    gallery.addEventListener('focusout', (event) => {
+        if (!gallery.contains(event.relatedTarget)) startAutoplay();
+    });
+
+    slides.forEach((slide) => {
+        slide.addEventListener('click', () => {
+            const dialog = document.querySelector('#galleryLightbox');
+            const image = dialog?.querySelector('img');
+            if (!dialog || !image) return;
+            const source = slide.dataset.galleryImage;
+            image.src = source;
+            image.alt = slide.querySelector('img')?.alt || 'Ferienhaus – vergrößertes Bild';
+            dialog.showModal();
+        });
+    });
+
+    showSlide(0);
+    startAutoplay();
 });
 const lightbox = document.querySelector('#galleryLightbox');
 lightbox?.querySelector('.lightbox-close')?.addEventListener('click', () => lightbox.close());
