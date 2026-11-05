@@ -73,3 +73,10 @@ The website currently uses Unsplash-hosted stock photos as temporary illustrativ
 A public image-credit page is available at `bildnachweise.html`. The photo assets were audited across the HTML and CSS files; all externally loaded photographic assets found in the repository are served from `images.unsplash.com`. The standard Unsplash License permits free commercial and non-commercial use without mandatory attribution. It is not a public-domain dedication. Rights in recognizable people, trademarks, logos, and depicted artworks may require separate clearance. Review the current [Unsplash License](https://unsplash.com/de/lizenz) and [Terms](https://unsplash.com/terms) before publication.
 
 Replace the stock photos with original property photos before presenting the galleries as factual representations of the houses.
+
+
+## Local Python backend (FastAPI)
+
+For local testing, an alternative FastAPI backend with Pydantic v2 validation is available in `backend/`. It reads the same private `HP_ICAL_141_URL` and `HP_ICAL_136_URL` variables from the root `.env`.
+
+See [backend/README.md](backend/README.md) for installation and startup. Run FastAPI on `127.0.0.1:8000` and the existing static Node server on `localhost:3000`; the frontend automatically calls FastAPI while running on localhost. The Node backend remains available for the existing production deployment path.
