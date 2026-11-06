@@ -60,8 +60,8 @@ test('both detail pages can be opened directly', async ({ page }) => {
     );
 });
 
-test('desktop navigation links to the main sections', async ({ page, isMobile }) => {
-    test.skip(isMobile, 'The mobile menu has a dedicated test.');
+test('desktop navigation links to the main sections', async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name === 'mobile-chromium', 'The mobile menu has a dedicated test.');
     await page.goto('/');
     const navigation = page.locator('#main-navigation');
     await expect(navigation.getByRole('link', { name: 'Unsere Häuser' })).toHaveAttribute('href', '#haeuser');
@@ -69,8 +69,8 @@ test('desktop navigation links to the main sections', async ({ page, isMobile })
     await expect(navigation.getByRole('link', { name: 'Kontakt' })).toHaveAttribute('href', '#kontakt');
 });
 
-test('mobile navigation opens and closes after selecting a section', async ({ page, isMobile }) => {
-    test.skip(!isMobile, 'Only the mobile project has a collapsible navigation.');
+test('mobile navigation opens and closes after selecting a section', async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== 'mobile-chromium', 'Only the mobile project has a collapsible navigation.');
     await page.goto('/');
     const toggle = page.locator('.menu-toggle');
     const navigation = page.locator('#main-navigation');
