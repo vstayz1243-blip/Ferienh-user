@@ -19,6 +19,9 @@ const viewports = [
 
 const pages = [
     '/',
+    '/auszeit',
+    '/haeuser',
+    '/kontakt',
     '/ferienhaus-141.html',
     '/ferienhaus-136.html'
 ];
