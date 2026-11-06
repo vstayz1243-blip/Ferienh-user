@@ -1039,10 +1039,10 @@ p, a, button, label, li, h1, h2, h3 {
 .section-shell,
 .statement-content,
 .dreiwelten-inner {
-    width: min(var(--content-width), calc(100% - 2 * var(--page-gutter)));
+    width: min(var(--content-width), calc(100% - var(--page-gutter) - var(--page-gutter)));
 }
 .hero-content {
-    width: min(920px, calc(100% - 2 * var(--page-gutter)));
+    width: min(920px, calc(100% - var(--page-gutter) - var(--page-gutter)));
     margin: 76px auto 0;
 }
 .hero h1 {
@@ -1153,7 +1153,7 @@ p, a, button, label, li, h1, h2, h3 {
     min-height: clamp(560px, 76svh, 790px);
 }
 .detail-hero-content {
-    width: min(var(--content-width), calc(100% - 2 * var(--page-gutter)));
+    width: min(var(--content-width), calc(100% - var(--page-gutter) - var(--page-gutter)));
 }
 .detail-hero h1 {
     font-size: clamp(3.25rem, 8vw, 6.75rem);
@@ -1315,7 +1315,7 @@ p, a, button, label, li, h1, h2, h3 {
     .section-shell,
     .statement-content,
     .dreiwelten-inner {
-        width: calc(100% - 2 * var(--page-gutter));
+        width: calc(100% - var(--page-gutter) - var(--page-gutter));
     }
     .intro-grid {
         grid-template-columns: minmax(0, 1fr);
@@ -1405,7 +1405,7 @@ p, a, button, label, li, h1, h2, h3 {
         max-height: 850px;
     }
     .hero-content {
-        width: calc(100% - 2 * var(--page-gutter));
+        width: calc(100% - var(--page-gutter) - var(--page-gutter));
         margin: 60px auto 0;
     }
     .hero h1 {
@@ -1593,7 +1593,7 @@ p, a, button, label, li, h1, h2, h3 {
         min-height: 590px;
     }
     .detail-hero-content {
-        width: calc(100% - 2 * var(--page-gutter));
+        width: calc(100% - var(--page-gutter) - var(--page-gutter));
         padding-block: 76px;
     }
     .detail-hero h1 {
