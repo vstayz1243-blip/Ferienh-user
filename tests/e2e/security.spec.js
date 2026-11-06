@@ -36,7 +36,18 @@ test('API errors do not return stack traces', async ({ request }) => {
 });
 
 test('contact form treats user input as a value rather than executable markup', async ({ page }) => {
+    // Keep this security test independent from scroll-triggered reveal animations.
+    await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.goto('/');
+
+    const contactForm = page.locator('#contactForm');
+    await expect(contactForm).toHaveCount(1);
+    await contactForm.scrollIntoViewIfNeeded();
+    await expect(contactForm).toBeVisible();
+
+    const nameField = contactForm.locator('#name');
+    await expect(nameField).toBeVisible();
+
     const payload = '<img src=x onerror=alert(1)>';
     const dialogs = [];
     page.on('dialog', async (dialog) => {
@@ -44,12 +55,9 @@ test('contact form treats user input as a value rather than executable markup', 
         await dialog.dismiss();
     });
 
-    const nameField = page.locator('#name');
-    const imageCountBefore = await page.locator('body img').count();
     await nameField.fill(payload);
 
     await expect(nameField).toHaveValue(payload);
-    await expect(page.locator('body img')).toHaveCount(imageCountBefore);
-    expect(await nameField.evaluate((element) => element.value)).toBe(payload);
+    await expect(page.locator('img[src="x"]')).toHaveCount(0);
     expect(dialogs).toEqual([]);
 });
