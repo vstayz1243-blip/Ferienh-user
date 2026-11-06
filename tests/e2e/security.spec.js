@@ -20,7 +20,7 @@ test('encoded path traversal cannot read files outside the web root', async ({ r
 });
 
 test('private H&P iCalendar feed URLs are not exposed in public frontend assets', async ({ request }) => {
-    for (const path of ['/', '/site.js', '/ferienhaus-141.html', '/ferienhaus-136.html']) {
+    for (const path of ['/', '/auszeit', '/haeuser', '/kontakt', '/site.js', '/ferienhaus-141.html', '/ferienhaus-136.html']) {
         const response = await request.get(path);
         expect(response.ok()).toBeTruthy();
         const body = await response.text();
