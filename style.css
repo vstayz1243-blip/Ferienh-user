@@ -1735,3 +1735,115 @@ p, a, button, label, li, h1, h2, h3 {
     .home-navigation-grid { grid-template-columns: 1fr; }
     .home-navigation-card { min-height: 240px; }
 }
+
+
+/* Startseite: hervorgehobene DreiWelten Card und vollflächige Häuser-Karte */
+.dreiwelten-section {
+    margin-top: 0;
+}
+.dreiwelten-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 18px 28px;
+    margin-top: 24px;
+}
+.dreiwelten-actions .dreiwelten-link {
+    margin-top: 0;
+}
+.dreiwelten-actions .button {
+    min-height: 48px;
+}
+.home-houses-section {
+    padding-top: clamp(4.5rem, 8vw, 7rem);
+    padding-bottom: clamp(4.5rem, 8vw, 7rem);
+}
+.home-house-promo {
+    position: relative;
+    display: flex;
+    min-height: clamp(380px, 53vw, 650px);
+    align-items: flex-end;
+    overflow: hidden;
+    isolation: isolate;
+    color: #fff;
+    background: #30392f;
+}
+.home-house-promo > img,
+.home-house-promo-shade {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+.home-house-promo > img {
+    z-index: -2;
+    object-fit: cover;
+    transition: transform .8s cubic-bezier(.2,.7,.2,1);
+}
+.home-house-promo-shade {
+    z-index: -1;
+    background: linear-gradient(90deg, rgba(14,20,15,.76), rgba(14,20,15,.25) 75%), linear-gradient(0deg, rgba(10,15,11,.42), transparent 70%);
+}
+.home-house-promo:hover > img,
+.home-house-promo:focus-visible > img {
+    transform: scale(1.035);
+}
+.home-house-promo-content {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 22px;
+    padding: clamp(28px, 6vw, 76px);
+}
+.home-house-promo-content .eyebrow {
+    margin: 0;
+}
+.home-house-promo-content > strong {
+    font-size: clamp(2.8rem, 7vw, 6rem);
+    font-weight: 400;
+    line-height: .98;
+    letter-spacing: -.065em;
+}
+.home-house-promo-content > strong em {
+    font-family: Georgia, serif;
+    font-weight: 400;
+}
+.home-house-promo-button {
+    display: inline-flex;
+    min-height: 52px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+    padding: 0 22px;
+    color: var(--ink);
+    background: var(--paper);
+    font-size: 12px;
+    font-weight: 700;
+    transition: background .2s, transform .2s;
+}
+.home-house-promo:hover .home-house-promo-button {
+    background: #fff;
+    transform: translateY(-2px);
+}
+.home-house-promo:focus-visible {
+    outline: 3px solid #8c9a80;
+    outline-offset: 4px;
+}
+@media (max-width: 560px) {
+    .dreiwelten-actions {
+        align-items: stretch;
+        flex-direction: column;
+    }
+    .dreiwelten-actions .button {
+        justify-content: center;
+        width: 100%;
+    }
+    .home-house-promo {
+        min-height: 440px;
+    }
+    .home-house-promo-content {
+        gap: 18px;
+        padding: 26px 22px;
+    }
+}
