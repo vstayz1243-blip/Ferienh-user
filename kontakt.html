@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#171916">
+    <meta name="description" content="Stelle eine Anfrage für deinen Aufenthalt in einem unserer Ferienhäuser im Feriendorf Öfingen.">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Ferienhaus 141 / 136 – Auszeit im Schwarzwald">
+    <meta property="og:description" content="Zwei Ferienhäuser im Feriendorf Öfingen. Finde deinen Rückzugsort im Schwarzwald.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1510798831971-661eb04b3739?auto=format&fit=crop&w=1200&q=85">
+    <meta name="twitter:card" content="summary_large_image">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LodgingBusiness",
+      "name": "Ferienhäuser 141 und 136",
+      "description": "Zwei Ferienhäuser im Feriendorf Öfingen in Bad Dürrheim im Schwarzwald.",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Bad Dürrheim",
+        "addressRegion": "Baden-Württemberg",
+        "addressCountry": "DE"
+      }
+    }
+    </script>
+    <title>Kontakt – Ferienhäuser 141 und 136</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./style.css">
+</head><body><header class="site-header" id="top">
+        <a class="brand" href="/" aria-label="Ferienhaus 141 und 136 – Startseite"><span class="brand-mark">141<span>/</span>136</span><span class="brand-caption">FERIENHÄUSER · SCHWARZWALD</span></a>
+        <button class="menu-toggle" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="main-navigation"><span></span><span></span></button>
+        <nav class="main-navigation" id="main-navigation" aria-label="Hauptnavigation">
+            <a href="/auszeit">Die Auszeit</a>
+            <a href="/haeuser">Unsere Häuser</a>
+            <a href="/kontakt">Kontakt</a>
+            <a class="nav-cta" href="/haeuser">Unterkunft entdecken <span aria-hidden="true">↗</span></a>
+        </nav>
+    </header><main><section class="contact-section section-shell" id="kontakt">
+            <div class="contact-intro">
+                <p class="eyebrow">DER ERSTE SCHRITT ZUR AUSZEIT</p>
+                <h2>Lust auf<br><em>Schwarzwald?</em></h2>
+                <p>Schreib uns, welches Haus dich interessiert und wann du reisen möchtest. Wir freuen uns auf deine Anfrage.</p>
+                <div class="contact-aside"><span>FERIENHAUS 141 / 136</span><span>SCHWARZWALD · DEUTSCHLAND</span></div>
+            </div>
+            <form class="contact-form" id="contactForm">
+                <div class="form-row">
+                    <label for="name">Dein Name</label>
+                    <input type="text" id="name" name="name" placeholder="Vor- und Nachname" autocomplete="name" required>
+                </div>
+                <div class="form-row">
+                    <label for="email">Deine E-Mail-Adresse</label>
+                    <input type="email" id="email" name="email" placeholder="name@beispiel.de" autocomplete="email" required>
+                </div>
+                <div class="form-grid">
+                    <div class="form-row">
+                        <label for="arrival">Anreise</label>
+                        <input type="date" id="arrival" name="arrival" required>
+                    </div>
+                    <div class="form-row">
+                        <label for="departure">Abreise</label>
+                        <input type="date" id="departure" name="departure" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <label for="guests">Anzahl der Personen</label>
+                    <input type="number" id="guests" name="guests" min="1" max="12" value="2" required>
+                </div>
+                <div class="form-row">
+                    <label for="house">Welches Haus interessiert dich?</label>
+                    <select id="house" name="house" required>
+                        <option value="Noch offen">Ich bin noch offen</option>
+                        <option value="Ferienhaus 141">Ferienhaus 141</option>
+                        <option value="Ferienhaus 136">Ferienhaus 136</option>
+                    </select>
+                </div>
+                <div class="booking-summary" aria-live="polite">
+                    <div>
+                        <span class="booking-summary-label">DEIN AUFENTHALT</span>
+                        <strong id="stayDuration">Bitte wähle An- und Abreise</strong>
+                        <span id="stayDates" class="booking-summary-dates">Dein Zeitraum wird hier zusammengefasst.</span>
+                    </div>
+                    <span class="booking-summary-nights"><strong id="stayNights">–</strong><small>Nächte</small></span>
+                </div>
+                <div class="form-row">
+                    <label for="message">Zusätzliche Nachricht <span class="optional-label">(optional)</span></label>
+                    <textarea id="message" name="message" rows="4" placeholder="Hast du noch Fragen oder besondere Wünsche?"></textarea>
+                </div>
+                <button class="button button-dark" type="submit">Anfrage per E-Mail vorbereiten <span aria-hidden="true">↗</span></button>
+                <a class="booking-external-link" id="checkAvailabilityLink" href="https://etlink.hptouristik.de/?id=1828ce058f3e46a6b617ef0608db5af8" target="_blank" rel="noopener noreferrer">Direkt bei H&amp;P buchen <span aria-hidden="true">↗</span></a>
+                <p class="form-note" id="formMessage" role="status">Die Anfrage wird in deinem E-Mail-Programm vorbereitet. Du kannst sie dort prüfen und absenden. Es erfolgt kein automatischer Versand.</p>
+            </form>
+        </section></main><footer class="site-footer">
+        <a class="brand brand-footer" href="/"><span class="brand-mark">141<span>/</span>136</span><span class="brand-caption">FERIENHÄUSER · SCHWARZWALD</span></a>
+        <span>© <span id="year">2026</span> Ferienhaus 141 / 136</span>
+        <div class="footer-links"><a href="./impressum.html">Impressum</a><a href="./datenschutz.html">Datenschutz</a><a href="./bildnachweise.html">Bildnachweise</a><a href="/kontakt">Kontakt</a><a href="#top">Nach oben ↑</a></div>
+    </footer><dialog class="lightbox" id="galleryLightbox" aria-label="Bildansicht"><button class="lightbox-close" type="button" aria-label="Bildansicht schließen">×</button><img src="" alt="Vergrößerte Ansicht"></dialog>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+    <script type="module" src="./site.js"></script>
+</body>
+</html>
