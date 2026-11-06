@@ -1006,3 +1006,685 @@ h1 em, h2 em, .detail-hero h1 em {
         transition: none;
     }
 }
+
+/* Responsive layout foundation: fluid containers, safe grids and intrinsic images */
+:root {
+    --page-gutter: clamp(16px, 4.5vw, 72px);
+    --content-width: 1160px;
+}
+html {
+    width: 100%;
+    max-width: 100%;
+    scroll-padding-top: 88px;
+}
+body {
+    width: 100%;
+    min-width: 320px;
+    max-width: 100%;
+}
+main, section, article, header, footer, nav, form,
+.section-shell, .house-card, .house-info, .dreiwelten-inner,
+.detail-overview, .detail-booking, .detail-features-grid {
+    min-width: 0;
+}
+img, svg, video, iframe {
+    max-width: 100%;
+}
+img {
+    height: auto;
+}
+p, a, button, label, li, h1, h2, h3 {
+    overflow-wrap: anywhere;
+}
+.section-shell,
+.statement-content,
+.dreiwelten-inner {
+    width: min(var(--content-width), calc(100% - 2 * var(--page-gutter)));
+}
+.hero-content {
+    width: min(920px, calc(100% - 2 * var(--page-gutter)));
+    margin: 76px auto 0;
+}
+.hero h1 {
+    font-size: clamp(2.6rem, 7.1vw, 6.375rem);
+    line-height: .98;
+    text-wrap: balance;
+}
+.hero-copy {
+    max-width: min(430px, 100%);
+}
+.hero-bottom {
+    gap: 16px;
+}
+.hero-bottom > * {
+    min-width: 0;
+}
+.house-card,
+.house-card-reverse {
+    grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr);
+    min-width: 0;
+}
+.house-gallery,
+.house-gallery.gallery-carousel {
+    width: 100%;
+    height: auto;
+    min-width: 0;
+    min-height: 0;
+    aspect-ratio: 16 / 10;
+}
+.house-gallery.gallery-carousel .house-gallery-item,
+.photo-gallery.gallery-carousel .gallery-item {
+    min-width: 0;
+    min-height: 0;
+}
+.house-gallery img,
+.photo-gallery img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+.house-info {
+    min-width: 0;
+    padding-inline: clamp(20px, 3.4vw, 54px);
+}
+.house-info > .house-action,
+.house-info > .house-route-action {
+    max-width: 100%;
+    min-width: 0;
+    white-space: normal;
+}
+.house-title-row {
+    min-width: 0;
+    flex-wrap: wrap;
+}
+.house-price {
+    white-space: normal;
+}
+.availability-calendars {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.availability-calendar-card {
+    min-width: 0;
+    padding-inline: clamp(16px, 2.2vw, 30px);
+}
+.calendar-grid,
+.calendar-toolbar {
+    min-width: 0;
+}
+.calendar-day {
+    min-width: 0;
+}
+.dreiwelten-inner {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr);
+}
+.dreiwelten-copy,
+.dreiwelten-highlight,
+.dreiwelten-benefits {
+    min-width: 0;
+}
+.dreiwelten-highlight {
+    width: 100%;
+    overflow: hidden;
+}
+.dreiwelten-card-art {
+    width: min(350px, calc(100% - 32px));
+}
+.dreiwelten-count {
+    right: clamp(0px, 2vw, 18px);
+    max-width: calc(100% - 16px);
+}
+.dreiwelten-free {
+    max-width: calc(100% - 16px);
+    overflow-wrap: anywhere;
+}
+.photo-gallery {
+    min-width: 0;
+}
+.photo-gallery.gallery-carousel {
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    aspect-ratio: 16 / 10;
+}
+.detail-hero {
+    min-height: clamp(560px, 76svh, 790px);
+}
+.detail-hero-content {
+    width: min(var(--content-width), calc(100% - 2 * var(--page-gutter)));
+}
+.detail-hero h1 {
+    font-size: clamp(3.25rem, 8vw, 6.75rem);
+    text-wrap: balance;
+}
+.detail-overview-heading,
+.detail-features-grid,
+.detail-booking {
+    min-width: 0;
+}
+.form-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.contact-section {
+    grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+}
+.contact-form,
+.form-row {
+    min-width: 0;
+}
+.form-row input,
+.form-row textarea,
+.form-row select {
+    max-width: 100%;
+    min-width: 0;
+}
+.booking-summary {
+    min-width: 0;
+    flex-wrap: wrap;
+}
+.site-footer {
+    min-width: 0;
+}
+.footer-links {
+    flex-wrap: wrap;
+}
+.lightbox {
+    width: min(1100px, calc(100vw - 24px));
+    max-width: calc(100vw - 24px);
+}
+.lightbox img {
+    width: auto;
+    max-width: 100%;
+    max-height: calc(90svh - 65px);
+    object-fit: contain;
+}
+
+/* Tablet and compact laptop */
+@media (max-width: 1150px) {
+    .site-header {
+        height: 76px;
+        padding-inline: var(--page-gutter);
+    }
+    .menu-toggle {
+        display: flex;
+        flex: 0 0 42px;
+        width: 42px;
+        height: 42px;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 6px;
+        margin-left: auto;
+        border: 1px solid #d5d7cf;
+        background: transparent;
+        cursor: pointer;
+    }
+    .menu-toggle span {
+        width: 17px;
+        height: 1px;
+        background: var(--ink);
+    }
+    .menu-toggle[aria-expanded="true"] span:first-child {
+        transform: translateY(3.5px) rotate(45deg);
+    }
+    .menu-toggle[aria-expanded="true"] span:last-child {
+        transform: translateY(-3.5px) rotate(-45deg);
+    }
+    .main-navigation {
+        position: fixed;
+        inset: 76px 0 0;
+        z-index: 30;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: flex-start;
+        gap: 0;
+        padding: 28px var(--page-gutter) 48px;
+        background: var(--paper);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-8px);
+        transition: opacity .2s, transform .2s, visibility .2s;
+        white-space: normal;
+        overflow-y: auto;
+    }
+    .main-navigation.is-open {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+    .main-navigation > a:not(.nav-cta) {
+        padding: 18px 0;
+        border-bottom: 1px solid var(--line);
+        font-size: clamp(20px, 3vw, 25px);
+        letter-spacing: -.04em;
+    }
+    .nav-cta {
+        margin-top: 24px;
+        text-align: center;
+    }
+    .legal-header {
+        height: auto;
+        min-height: 76px;
+        padding-block: 16px;
+        flex-wrap: wrap;
+        gap: 14px;
+    }
+    .legal-header .main-navigation {
+        position: static;
+        inset: auto;
+        display: flex;
+        flex: 1 1 auto;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: 14px 22px;
+        width: auto;
+        margin-left: auto;
+        padding: 0;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        overflow: visible;
+        background: transparent;
+        font-size: 12px;
+    }
+    .legal-header .main-navigation > a:not(.nav-cta) {
+        padding: 0;
+        border: 0;
+        font-size: 12px;
+    }
+    .house-card,
+    .house-card-reverse {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
+    .house-info {
+        padding: 32px clamp(20px, 3vw, 34px);
+    }
+    .house-info > .house-action,
+    .house-info > .house-route-action {
+        width: 100%;
+        margin-right: 0;
+    }
+}
+
+/* Tablet portrait and mobile */
+@media (max-width: 900px) {
+    .section-shell,
+    .statement-content,
+    .dreiwelten-inner {
+        width: calc(100% - 2 * var(--page-gutter));
+    }
+    .intro-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 28px;
+    }
+    .dreiwelten-inner {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 28px;
+    }
+    .dreiwelten-copy {
+        max-width: 720px;
+    }
+    .dreiwelten-highlight {
+        width: min(560px, 100%);
+        min-height: 330px;
+        margin-inline: auto;
+    }
+    .dreiwelten-benefits {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .house-card,
+    .house-card-reverse {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 42px;
+    }
+    .house-card-reverse .house-gallery {
+        order: 0;
+    }
+    .house-gallery,
+    .house-gallery.gallery-carousel {
+        aspect-ratio: 16 / 10;
+    }
+    .house-info {
+        padding: 34px clamp(20px, 4vw, 42px) 38px;
+    }
+    .house-info > .house-action,
+    .house-info > .house-route-action {
+        width: 100%;
+        max-width: 440px;
+    }
+    .availability-calendars {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 24px;
+    }
+    .contact-section {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 36px;
+    }
+    .contact-aside {
+        margin-top: 28px;
+    }
+    .detail-overview-heading {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 24px;
+    }
+    .detail-features-grid,
+    .detail-booking {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 32px;
+    }
+}
+
+/* Small phones */
+@media (max-width: 560px) {
+    :root {
+        --page-gutter: 18px;
+    }
+    html {
+        scroll-padding-top: 70px;
+    }
+    .site-header {
+        height: 70px;
+        padding-inline: var(--page-gutter);
+    }
+    .main-navigation {
+        inset: 70px 0 0;
+    }
+    .brand-caption {
+        font-size: 7px;
+        letter-spacing: 1.5px;
+    }
+    .hero {
+        min-height: 650px;
+        height: 92svh;
+        max-height: 850px;
+    }
+    .hero-content {
+        width: calc(100% - 2 * var(--page-gutter));
+        margin: 60px auto 0;
+    }
+    .hero h1 {
+        font-size: clamp(2.45rem, 10.8vw, 3.7rem);
+        letter-spacing: -.065em;
+    }
+    .hero-copy {
+        max-width: 34rem;
+        font-size: 13px;
+        line-height: 1.7;
+    }
+    .hero-bottom {
+        min-height: 58px;
+        padding-inline: var(--page-gutter);
+        gap: 12px;
+        font-size: 7px;
+        letter-spacing: .8px;
+    }
+    .hero-bottom .hero-location {
+        text-align: right;
+    }
+    .intro,
+    .availability-section,
+    .contact-section {
+        padding-top: 78px;
+        padding-bottom: 78px;
+    }
+    .intro-grid {
+        padding-block: 38px 45px;
+    }
+    .intro h2,
+    .section-heading h2,
+    .contact-intro h2 {
+        font-size: clamp(2.55rem, 10.5vw, 3.8rem);
+    }
+    .feature-strip {
+        grid-template-columns: minmax(0, 1fr);
+    }
+    .section-heading {
+        display: block;
+        margin-bottom: 36px;
+    }
+    .heading-aside {
+        font-size: 14px;
+    }
+    .houses-section {
+        padding-block: 76px 66px;
+    }
+    .house-gallery,
+    .house-gallery.gallery-carousel,
+    .photo-gallery.gallery-carousel {
+        aspect-ratio: 4 / 3;
+    }
+    .house-info {
+        padding: 26px 20px 30px;
+    }
+    .house-title-row h3 {
+        font-size: clamp(3.6rem, 16vw, 4.3rem);
+    }
+    .house-info > .house-action,
+    .house-info > .house-route-action {
+        width: 100%;
+        max-width: none;
+        min-height: 52px;
+        padding-inline: 16px;
+        font-size: 13px;
+    }
+    .price-note {
+        margin-top: -10px;
+        line-height: 1.6;
+    }
+    .availability-calendar-card {
+        padding: 20px 14px;
+    }
+    .availability-card-heading {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 12px;
+    }
+    .availability-legend {
+        gap: 10px 16px;
+        font-size: 9px;
+    }
+    .calendar-toolbar {
+        grid-template-columns: 36px minmax(0, 1fr) 36px;
+        gap: 8px;
+    }
+    .calendar-nav {
+        width: 36px;
+        height: 36px;
+    }
+    .calendar-day,
+    .calendar-day.is-empty {
+        min-height: 36px;
+        font-size: 10px;
+    }
+    .statement {
+        min-height: 500px;
+    }
+    .statement-content {
+        padding-block: 76px;
+    }
+    .statement h2 {
+        font-size: clamp(2.8rem, 11vw, 4rem);
+    }
+    .form-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 0;
+    }
+    .booking-summary {
+        align-items: flex-start;
+        padding: 16px;
+    }
+    .booking-summary-nights {
+        align-items: flex-start;
+    }
+    .site-footer {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        padding: 28px var(--page-gutter);
+        gap: 20px;
+    }
+    .site-footer > span {
+        margin-left: auto;
+        text-align: right;
+    }
+    .footer-links {
+        display: flex;
+        flex: 1 1 100%;
+        justify-content: flex-start;
+        gap: 14px 20px;
+        padding-top: 18px;
+        border-top: 1px solid rgba(255,255,255,.15);
+    }
+    .dreiwelten-section {
+        padding-block: 54px 48px;
+    }
+    .dreiwelten-copy h2 {
+        font-size: clamp(2.4rem, 9.8vw, 3.6rem);
+    }
+    .dreiwelten-lead {
+        font-size: 15px;
+    }
+    .dreiwelten-highlight {
+        min-height: 290px;
+    }
+    .dreiwelten-card-art {
+        width: min(290px, calc(100% - 36px));
+        min-height: 180px;
+        padding: 20px;
+    }
+    .dreiwelten-card-name {
+        font-size: clamp(2.2rem, 10vw, 2.6rem);
+    }
+    .dreiwelten-count {
+        right: 0;
+        bottom: 0;
+        padding: 10px 12px;
+    }
+    .dreiwelten-count strong {
+        font-size: 30px;
+    }
+    .dreiwelten-free {
+        top: 0;
+        left: 0;
+        padding: 8px 10px;
+        font-size: 7px;
+    }
+    .dreiwelten-benefits {
+        grid-template-columns: minmax(0, 1fr);
+    }
+    .dreiwelten-benefits > div,
+    .dreiwelten-benefits > div + div {
+        padding: 16px 0;
+        border-left: 0;
+    }
+    .dreiwelten-benefits > div + div {
+        border-top: 1px solid rgba(235,239,229,.16);
+    }
+    .detail-main {
+        padding-top: 70px;
+    }
+    .detail-hero {
+        min-height: 590px;
+    }
+    .detail-hero-content {
+        width: calc(100% - 2 * var(--page-gutter));
+        padding-block: 76px;
+    }
+    .detail-hero h1 {
+        font-size: clamp(3.1rem, 13vw, 4.8rem);
+    }
+    .detail-overview,
+    .detail-booking {
+        padding-top: 76px;
+        padding-bottom: 76px;
+    }
+    .detail-overview h2,
+    .detail-features h2,
+    .detail-booking h2 {
+        font-size: clamp(2.5rem, 10.5vw, 3.8rem);
+    }
+    .photo-gallery,
+    .photo-gallery.gallery-carousel {
+        aspect-ratio: 4 / 3;
+    }
+    .photo-gallery:not(.gallery-carousel) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-auto-rows: clamp(120px, 38vw, 180px);
+        gap: 8px;
+    }
+    .photo-gallery:not(.gallery-carousel) .gallery-item-large {
+        grid-column: 1 / -1;
+        grid-row: auto;
+    }
+    .detail-features {
+        padding-block: 70px;
+    }
+    .location-section {
+        padding-block: 76px;
+    }
+    .location-map {
+        height: clamp(260px, 75vw, 360px);
+    }
+    .legal-header {
+        min-height: 70px;
+        height: auto;
+        padding: 16px var(--page-gutter);
+    }
+    .legal-header .main-navigation {
+        flex: 1 1 100%;
+        justify-content: flex-start;
+        margin: 0;
+    }
+    .legal-main {
+        padding-top: 120px;
+        padding-bottom: 76px;
+    }
+}
+
+/* Very narrow devices and landscape phones */
+@media (max-width: 360px) {
+    .hero h1 {
+        font-size: 2.35rem;
+    }
+    .hero-bottom {
+        font-size: 6px;
+        letter-spacing: .5px;
+    }
+    .house-info {
+        padding-inline: 16px;
+    }
+    .availability-calendar-card {
+        padding-inline: 10px;
+    }
+    .calendar-grid {
+        column-gap: 2px;
+    }
+    .calendar-day,
+    .calendar-day.is-empty {
+        min-height: 32px;
+    }
+    .dreiwelten-highlight {
+        min-height: 270px;
+    }
+    .dreiwelten-card-art {
+        width: min(260px, calc(100% - 28px));
+    }
+}
+@media (max-height: 520px) and (orientation: landscape) {
+    .hero {
+        min-height: 520px;
+        height: auto;
+    }
+    .hero-content {
+        padding-block: 100px 90px;
+    }
+    .detail-hero {
+        min-height: 520px;
+    }
+}
