@@ -243,7 +243,13 @@ async function serveStatic(request, response, url) {
         return;
     }
 
-    if (pathname === '/') pathname = '/index.html';
+    const routeFiles = {
+        '/': '/index.html',
+        '/auszeit': '/auszeit.html',
+        '/haeuser': '/haeuser.html',
+        '/kontakt': '/kontakt.html'
+    };
+    pathname = routeFiles[pathname] || pathname;
     const filePath = path.resolve(ROOT, `.${pathname}`);
     if (!filePath.startsWith(ROOT + path.sep) || pathname.split('/').some((part) => part.startsWith('.'))) {
         response.writeHead(403);
