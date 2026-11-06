@@ -80,3 +80,32 @@ Replace the stock photos with original property photos before presenting the gal
 For local testing, an alternative FastAPI backend with Pydantic v2 validation is available in `backend/`. It reads the same private `HP_ICAL_141_URL` and `HP_ICAL_136_URL` variables from the root `.env`.
 
 See [backend/README.md](backend/README.md) for installation and startup. Run FastAPI on `127.0.0.1:8000` and the existing static Node server on `localhost:3000`; the frontend automatically calls FastAPI while running on localhost. The Node backend remains available for the existing production deployment path.
+
+
+## Automated tests
+
+Run the existing Node.js API and static-file integration tests:
+
+```bash
+npm test
+```
+
+Run the Python FastAPI, Pydantic and iCalendar tests:
+
+```bash
+source .venv/bin/activate
+python -m pytest backend/tests -v
+```
+
+Run the browser end-to-end and frontend security tests (Playwright):
+
+```bash
+npx playwright install chromium
+npm run test:e2e
+```
+
+The Playwright suite starts an isolated Node web server on port 4173 and runs in desktop Chromium and a mobile Chromium profile. Calendar API responses are mocked with deterministic test data; private H&P feeds and real bookings are not contacted. The suite covers navigation, both property detail pages, calendar loading/navigation/error states, gallery controls/lightbox/autoplay, contact-form validation, booking-link selection, responsive overflow, SEO basics, frontend secret exposure, path traversal and baseline security headers.
+
+Playwright reports are written to `playwright-report/` and failure artifacts to `test-results/`; both directories are excluded from Git.
+
+GitHub Actions runs the Node.js, Python and Playwright suites on pushes to `main` and pull requests targeting `main`.
