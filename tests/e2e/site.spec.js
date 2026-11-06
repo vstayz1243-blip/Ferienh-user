@@ -46,6 +46,8 @@ test('homepage renders the landing page and links to both main sections', async 
     await expect(page.locator('#idee')).toBeVisible();
     await page.goto('/haeuser');
     await expect(page.locator('.house-card')).toHaveCount(2);
+    await page.goto('/kontakt');
+    await expect(page.locator('#contactForm')).toBeVisible();
 });
 
 test('both detail pages can be opened directly', async ({ page }) => {
