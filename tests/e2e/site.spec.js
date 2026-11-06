@@ -36,12 +36,16 @@ test.beforeEach(async ({ page }) => {
     await page.route('https://**/*', (route) => route.abort());
 });
 
-test('homepage renders its main content and both houses', async ({ page }) => {
+test('homepage renders the landing page and links to both main sections', async ({ page }) => {
     await page.goto('/');
-    await expect(page).toHaveTitle(/Ferienhaus 141 \/ 136/i);
+    await expect(page).toHaveTitle(/Ferienhäuser 141 \/ 136/i);
     await expect(page.getByRole('heading', { level: 1 })).toContainText('Rein ins Gefühl');
-    await expect(page.locator('.house-card')).toHaveCount(2);
+    await expect(page.locator('.home-navigation-card')).toHaveCount(2);
+    await page.goto('/auszeit');
     await expect(page.locator('#dreiwelten')).toBeVisible();
+    await expect(page.locator('#idee')).toBeVisible();
+    await page.goto('/haeuser');
+    await expect(page.locator('.house-card')).toHaveCount(2);
 });
 
 test('both detail pages can be opened directly', async ({ page }) => {
@@ -64,9 +68,9 @@ test('desktop navigation links to the main sections', async ({ page }, testInfo)
     test.skip(testInfo.project.name === 'mobile-chromium', 'The mobile menu has a dedicated test.');
     await page.goto('/');
     const navigation = page.locator('#main-navigation');
-    await expect(navigation.getByRole('link', { name: 'Unsere Häuser' })).toHaveAttribute('href', '#haeuser');
-    await expect(navigation.getByRole('link', { name: 'Verfügbarkeit' })).toHaveAttribute('href', '#verfuegbarkeit');
-    await expect(navigation.getByRole('link', { name: 'Kontakt' })).toHaveAttribute('href', '#kontakt');
+    await expect(navigation.getByRole('link', { name: 'Unsere Häuser' })).toHaveAttribute('href', '/haeuser');
+    await expect(navigation.getByRole('link', { name: 'Verfügbarkeit' })).toHaveAttribute('href', '/haeuser#verfuegbarkeit');
+    await expect(navigation.getByRole('link', { name: 'Kontakt' })).toHaveAttribute('href', '/kontakt');
 });
 
 test('mobile navigation opens and closes after selecting a section', async ({ page }, testInfo) => {
@@ -82,11 +86,11 @@ test('mobile navigation opens and closes after selecting a section', async ({ pa
     await navigation.getByRole('link', { name: 'Unsere Häuser' }).click();
     await expect(toggle).toHaveAttribute('aria-expanded', 'false');
     await expect(navigation).not.toHaveClass(/is-open/);
-    await expect(page).toHaveURL(/#haeuser$/);
+    await expect(page).toHaveURL(/\/haeuser$/);
 });
 
 test('calendar loads availability for both houses', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/haeuser');
     for (const house of ['141', '136']) {
         const calendar = page.locator(`[data-calendar-house="${house}"]`);
         await expect(calendar.locator('[data-calendar-status]')).toContainText('Live-Daten von H&P geladen');
@@ -96,7 +100,7 @@ test('calendar loads availability for both houses', async ({ page }) => {
 });
 
 test('calendar month navigation moves forward and backward', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/haeuser');
     const calendar = page.locator('[data-calendar-house="141"]');
     const month = calendar.locator('[data-calendar-month]');
     const initialMonth = await month.innerText();
@@ -114,7 +118,7 @@ test('calendar displays a controlled error when the API is unavailable', async (
         route.fulfill({ status: 503, contentType: 'application/json', json: { error: 'Feed unavailable' } })
     );
 
-    await page.goto('/');
+    await page.goto('/haeuser');
     const status = page.locator('[data-calendar-house="141"] [data-calendar-status]');
     await expect(status).toContainText('Live-Daten aktuell nicht erreichbar');
     await expect(status).toHaveAttribute('data-state', 'error');
@@ -122,7 +126,7 @@ test('calendar displays a controlled error when the API is unavailable', async (
 });
 
 test('gallery changes slides with its controls', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/haeuser');
     const gallery = page.locator('.house-gallery').first();
     const slides = gallery.locator('[data-gallery-image]');
     await expect(slides.first()).toHaveClass(/is-active/);
@@ -136,7 +140,7 @@ test('gallery changes slides with its controls', async ({ page }) => {
 
 test('gallery automatically advances after five seconds', async ({ page }) => {
     await page.clock.install();
-    await page.goto('/');
+    await page.goto('/haeuser');
     const slides = page.locator('.house-gallery').first().locator('[data-gallery-image]');
 
     await expect(slides.nth(0)).toHaveClass(/is-active/);
@@ -145,7 +149,7 @@ test('gallery automatically advances after five seconds', async ({ page }) => {
 });
 
 test('gallery opens and closes the lightbox', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/haeuser');
     await page.locator('.house-gallery [data-gallery-image]').first().click();
 
     const lightbox = page.locator('#galleryLightbox');
@@ -168,7 +172,7 @@ test('reduced-motion preference disables gallery autoplay', async ({ page }) => 
 });
 
 test('house selection updates the H&P booking destination', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/kontakt');
     const house = page.locator('#house');
     const bookingLink = page.locator('#checkAvailabilityLink');
 
@@ -180,7 +184,7 @@ test('house selection updates the H&P booking destination', async ({ page }) => 
 });
 
 test('contact form calculates the stay duration', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/kontakt');
     await page.locator('#arrival').fill('2027-06-10');
     await page.locator('#departure').fill('2027-06-13');
 
@@ -189,7 +193,7 @@ test('contact form calculates the stay duration', async ({ page }) => {
 });
 
 test('departure cannot be on or before arrival', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/kontakt');
     const arrival = page.locator('#arrival');
     const departure = page.locator('#departure');
 
@@ -201,7 +205,7 @@ test('departure cannot be on or before arrival', async ({ page }) => {
 });
 
 test('contact form rejects an invalid email address', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/kontakt');
     const email = page.locator('#email');
     await email.fill('not-an-email');
 
@@ -212,7 +216,7 @@ test('contact form rejects an invalid email address', async ({ page }) => {
 test('house detail inquiry preselects the requested house', async ({ page }) => {
     await page.goto('/ferienhaus-136.html');
     await page.getByRole('link', { name: /Aufenthalt anfragen/ }).click();
-    await expect(page).toHaveURL(/index\.html#kontakt/);
+    await expect(page).toHaveURL(/\/kontakt$/);
     await expect(page.locator('#house')).toHaveValue('Ferienhaus 136');
 });
 
