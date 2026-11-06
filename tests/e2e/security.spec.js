@@ -38,7 +38,7 @@ test('API errors do not return stack traces', async ({ request }) => {
 test('contact form treats user input as a value rather than executable markup', async ({ page }) => {
     // Keep this security test independent from scroll-triggered reveal animations.
     await page.emulateMedia({ reducedMotion: 'reduce' });
-    await page.goto('/');
+    await page.goto('/kontakt');
 
     const contactForm = page.locator('#contactForm');
     await expect(contactForm).toHaveCount(1);
