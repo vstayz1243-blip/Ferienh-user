@@ -38,8 +38,18 @@ test('API errors do not return stack traces', async ({ request }) => {
 test('contact form treats user input as a value rather than executable markup', async ({ page }) => {
     await page.goto('/');
     const payload = '<img src=x onerror=alert(1)>';
-    await page.locator('#name').fill(payload);
+    const dialogs = [];
+    page.on('dialog', async (dialog) => {
+        dialogs.push(dialog.message());
+        await dialog.dismiss();
+    });
 
-    await expect(page.locator('#name')).toHaveValue(payload);
-    await expect(page.locator('img[src="x"]')).toHaveCount(0);
+    const nameField = page.locator('#name');
+    const imageCountBefore = await page.locator('body img').count();
+    await nameField.fill(payload);
+
+    await expect(nameField).toHaveValue(payload);
+    await expect(page.locator('body img')).toHaveCount(imageCountBefore);
+    expect(await nameField.evaluate((element) => element.value)).toBe(payload);
+    expect(dialogs).toEqual([]);
 });
