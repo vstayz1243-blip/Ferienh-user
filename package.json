@@ -9,9 +9,13 @@
   "scripts": {
     "start": "node --env-file=.env server.mjs",
     "start:without-env-file": "node server.mjs",
-    "test": "node --test"
+    "test": "node --test",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "ical.js": "^2.2.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.56.0"
   }
 }
