@@ -69,7 +69,7 @@ test('desktop navigation links to the main sections', async ({ page }, testInfo)
     await page.goto('/');
     const navigation = page.locator('#main-navigation');
     await expect(navigation.getByRole('link', { name: 'Unsere Häuser' })).toHaveAttribute('href', '/haeuser');
-    await expect(navigation.getByRole('link', { name: 'Verfügbarkeit' })).toHaveAttribute('href', '/haeuser#verfuegbarkeit');
+    await expect(navigation.getByRole('link', { name: 'Die Auszeit' })).toHaveAttribute('href', '/auszeit');
     await expect(navigation.getByRole('link', { name: 'Kontakt' })).toHaveAttribute('href', '/kontakt');
 });
 
@@ -163,7 +163,7 @@ test('gallery opens and closes the lightbox', async ({ page }) => {
 test('reduced-motion preference disables gallery autoplay', async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.clock.install();
-    await page.goto('/');
+    await page.goto('/haeuser');
     const slides = page.locator('.house-gallery').first().locator('[data-gallery-image]');
 
     await page.clock.fastForward(10_000);
