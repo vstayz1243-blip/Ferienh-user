@@ -1847,3 +1847,68 @@ p, a, button, label, li, h1, h2, h3 {
         padding: 26px 22px;
     }
 }
+
+
+/* Ausflugsziele rund um das Feriendorf */
+.nearby-section {
+    padding-top: clamp(4.5rem, 8vw, 7rem);
+    padding-bottom: clamp(4.5rem, 8vw, 7rem);
+}
+.nearby-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px;
+}
+.nearby-card {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    color: inherit;
+    background: var(--surface, #f2f1ed);
+    text-decoration: none;
+    transition: transform .25s ease, box-shadow .25s ease;
+}
+.nearby-card:hover,
+.nearby-card:focus-visible {
+    transform: translateY(-5px);
+    box-shadow: 0 18px 42px rgba(20, 25, 20, .12);
+}
+.nearby-card:focus-visible { outline: 3px solid #8c9a80; outline-offset: 4px; }
+.nearby-card-image { position: relative; height: 230px; overflow: hidden; background: #d9ddd5; }
+.nearby-card-image img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s ease; }
+.nearby-card:hover .nearby-card-image img { transform: scale(1.045); }
+.nearby-card-image > span {
+    position: absolute; left: 18px; bottom: 16px; padding: 8px 10px;
+    color: #fff; background: rgba(20, 25, 20, .72); font-size: 10px; letter-spacing: .12em;
+}
+.nearby-card-copy { display: flex; flex: 1; flex-direction: column; align-items: flex-start; padding: 24px; }
+.nearby-card-copy h3 { margin: 0 0 12px; font-size: 22px; font-weight: 400; letter-spacing: -.035em; }
+.nearby-card-copy p { margin: 0 0 24px; color: var(--muted, #666); font-size: 14px; line-height: 1.7; }
+.nearby-card-link { display: inline-flex; gap: 12px; margin-top: auto; font-size: 12px; font-weight: 600; }
+.dreiwelten-bottom { padding: clamp(58px, 8vw, 108px) 24px; color: #fff; background: #222b25; }
+.dreiwelten-bottom-inner {
+    display: flex; max-width: 1240px; margin: 0 auto; align-items: flex-end;
+    justify-content: space-between; gap: 48px;
+}
+.dreiwelten-bottom-inner > div:first-child { max-width: 720px; }
+.dreiwelten-bottom h2 { margin: 18px 0; font-size: clamp(38px, 6vw, 68px); font-weight: 300; line-height: 1.02; letter-spacing: -.055em; }
+.dreiwelten-bottom h2 em { font-family: Georgia, serif; font-weight: 400; }
+.dreiwelten-bottom-inner p:not(.eyebrow) { max-width: 650px; margin: 0; color: rgba(255,255,255,.76); line-height: 1.8; }
+.dreiwelten-bottom-actions { display: flex; min-width: 230px; flex-direction: column; align-items: flex-start; gap: 18px; }
+.dreiwelten-bottom-secondary { color: #fff; font-size: 12px; text-decoration: none; }
+.dreiwelten-bottom-secondary:hover { text-decoration: underline; }
+@media (max-width: 900px) {
+    .nearby-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .nearby-card:last-child { grid-column: 1 / -1; }
+    .nearby-card:last-child .nearby-card-image { height: 280px; }
+    .dreiwelten-bottom-inner { align-items: flex-start; flex-direction: column; }
+}
+@media (max-width: 600px) {
+    .nearby-grid { grid-template-columns: 1fr; gap: 18px; }
+    .nearby-card:last-child { grid-column: auto; }
+    .nearby-card-image, .nearby-card:last-child .nearby-card-image { height: 220px; }
+    .nearby-card-copy { padding: 20px; }
+    .dreiwelten-bottom { padding: 54px 22px; }
+    .dreiwelten-bottom-actions { width: 100%; }
+    .dreiwelten-bottom-actions .button { width: 100%; justify-content: center; }
+}
