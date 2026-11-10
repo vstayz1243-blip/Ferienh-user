@@ -70,7 +70,7 @@ sudo nano /opt/ferienhaus/.env
 sudo systemctl restart ferienhaus
 ```
 
-See [deploy/README.md](deploy/README.md) for the complete setup, LAN test, update process and requirements for public HTTPS access.
+The installer configures UFW so that the website (TCP 80) and SSH (TCP 22) are reachable only from the detected local IPv4 subnet. Do not configure router port forwarding for the Pi. See [deploy/README.md](deploy/README.md) for the complete LAN-only setup and update process.
 
 ### Other Node.js hosting providers
 
