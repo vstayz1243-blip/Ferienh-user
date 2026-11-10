@@ -51,14 +51,33 @@ The API returns ISO calendar dates in `bookedDates`. iCalendar end dates are tre
 
 ## Deployment
 
-This project now needs a Node.js-capable hosting environment. GitHub stores the source code but does not run the API; GitHub Pages alone cannot execute `server.mjs`.
+GitHub stores the source code but does not run the API; GitHub Pages alone cannot execute `server.mjs`.
 
-On the hosting provider:
+### Raspberry Pi 3 B+
+
+A deployment for Raspberry Pi OS Lite 64-bit (ARM64) is maintained in [deploy/README.md](deploy/README.md). It installs Node.js 22, Nginx, a hardened systemd service and production dependencies. The Node server serves both the website and the same-origin availability API; FastAPI is only intended for local development and is not required on the Pi.
+
+Quick start:
+
+```bash
+sudo apt update
+sudo apt install -y git
+sudo git clone https://github.com/vstayz1243-blip/Ferienh-user.git /opt/ferienhaus
+sudo chown -R "$USER":"$USER" /opt/ferienhaus
+cd /opt/ferienhaus
+sudo bash deploy/install-raspberry-pi.sh
+sudo nano /opt/ferienhaus/.env
+sudo systemctl restart ferienhaus
+```
+
+See [deploy/README.md](deploy/README.md) for the complete setup, LAN test, update process and requirements for public HTTPS access.
+
+### Other Node.js hosting providers
 
 1. Deploy the repository with Node.js 20.6 or newer.
-2. Set the environment variables `HP_ICAL_141_URL` and `HP_ICAL_136_URL` using the exact private URLs from H&P.
-3. Set the start command to `npm start`.
-4. Do not add the feed URLs to frontend files, commits, build logs, or public configuration.
+2. Set `HP_ICAL_141_URL` and `HP_ICAL_136_URL` as private server-side environment variables using the exact URLs from H&P.
+3. Use `npm start` as the start command.
+4. Never put the feed URLs in frontend files, commits, build logs or public configuration.
 
 The website and `/api/availability` must be served from the same origin so the browser can call the API without exposing feed credentials or requiring a public CORS proxy.
 
