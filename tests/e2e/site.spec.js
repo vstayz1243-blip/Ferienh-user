@@ -40,7 +40,9 @@ test('homepage renders the landing page and links to both main sections', async 
     await page.goto('/');
     await expect(page).toHaveTitle(/Ferienhäuser 141 \/ 136/i);
     await expect(page.getByRole('heading', { level: 1 })).toContainText('Rein ins Gefühl');
-    await expect(page.locator('.home-navigation-card')).toHaveCount(2);
+    await expect(page.locator('.home-house-promo')).toHaveCount(1);
+    await expect(page.locator('#nearby-highlights .nearby-card')).toHaveCount(3);
+    await expect(page.locator('#dreiwelten-bottom')).toBeVisible();
     await page.goto('/auszeit');
     await expect(page.locator('#dreiwelten')).toBeVisible();
     await expect(page.locator('#idee')).toBeVisible();
