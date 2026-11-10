@@ -6,6 +6,7 @@ import ICAL from 'ical.js';
 
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
 const PORT = Number(process.env.PORT || 3000);
+const HOST = process.env.HOST || '0.0.0.0';
 const CACHE_TTL_MS = 60 * 1000;
 const FETCH_TIMEOUT_MS = 12_000;
 const RANGE_MONTHS = 18;
@@ -282,8 +283,8 @@ const server = http.createServer(async (request, response) => {
     await serveStatic(request, response, url);
 });
 
-server.listen(PORT, () => {
-    console.log(`Ferienhaus website running at http://localhost:${PORT}`);
+server.listen(PORT, HOST, () => {
+    console.log(`Ferienhaus website running at http://${HOST}:${PORT}`);
     for (const house of ['141', '136']) {
         console.log(`H&P iCal feed for house ${house}: ${feeds[house] ? 'configured' : 'NOT configured'}`);
     }
