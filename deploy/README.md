@@ -10,6 +10,7 @@ Dieses Deployment betreibt die Website und die Node.js-Verfügbarkeits-API direk
 - Netzwerkverbindung per LAN oder WLAN
 - Node.js 22 LTS
 - Nginx als Reverse Proxy
+- UFW-Firewall: HTTP und SSH ausschließlich aus dem erkannten lokalen IPv4-Netz
 - systemd für automatischen Start und Neustart
 
 Der Pi 3 B+ besitzt 1 GB RAM. Deshalb ist der Dienst auf maximal 256 MB begrenzt und Node.js auf 192 MB Heap konfiguriert. Für diese Website mit statischen Dateien und zwei iCal-Feeds ist das ausreichend dimensioniert. Browser-Tests und Python-Abhängigkeiten werden nicht auf dem Pi installiert.
@@ -44,7 +45,7 @@ cd /opt/ferienhaus
 sudo bash deploy/install-raspberry-pi.sh
 ```
 
-Das Installationsskript installiert Node.js 22, Nginx und die Produktionsabhängigkeiten, richtet den eingeschränkten Systembenutzer `ferienhaus` sowie den systemd-Dienst ein und aktiviert Nginx.
+Das Installationsskript installiert Node.js 22, Nginx, UFW und die Produktionsabhängigkeiten, richtet den eingeschränkten Systembenutzer `ferienhaus` sowie den systemd-Dienst ein und aktiviert die Firewall. Das lokale IPv4-Netz wird über das aktive Standard-Netzwerkinterface erkannt. Eingehende Verbindungen werden standardmäßig blockiert; SSH (Port 22) und die Website (Port 80) werden nur aus diesem lokalen Netz zugelassen.
 
 ## 3. Private H&P-iCal-URLs hinterlegen
 
@@ -115,24 +116,36 @@ sudo bash deploy/update-raspberry-pi.sh
 
 Das Update holt `main`, installiert Produktionsabhängigkeiten neu, prüft die Node-Syntax, startet den Dienst neu und führt einen Healthcheck aus. Die lokale `.env` wird nicht überschrieben. Lokale Änderungen an versionierten Dateien können ein Fast-Forward-Update verhindern; solche Änderungen zuerst sichern oder verwerfen.
 
-## 7. Zugriff aus dem Internet und HTTPS
+## 7. Bewusst nur im lokalen Netzwerk erreichbar
 
-Für einen öffentlichen Betrieb sind zusätzlich erforderlich:
+Diese Installation ist ausdrücklich für den Zugriff im Heimnetz vorgesehen:
 
-1. Eine eigene Domain oder Subdomain.
-2. Eine feste lokale IP-Adresse für den Pi (DHCP-Reservierung im Router).
-3. Portweiterleitung TCP 80 und 443 auf die Pi-IP.
-4. Ein DNS-A-Record, der auf die öffentliche IPv4-Adresse zeigt. Bei DS-Lite/CGNAT ist eine normale IPv4-Portweiterleitung häufig nicht möglich; dann einen Tunnel oder einen externen Reverse Proxy verwenden.
-5. TLS-Zertifikat, z. B. mit Certbot für Nginx.
+- UFW blockiert standardmäßig alle eingehenden Verbindungen.
+- TCP-Port 80 (Website) und TCP-Port 22 (SSH) sind ausschließlich aus dem beim Setup erkannten lokalen IPv4-Subnetz erreichbar.
+- Der Node.js-Prozess lauscht nur auf `127.0.0.1:3000`; Nginx ist der einzige Netzwerkzugang zur Website.
+- Im Router **keine Portfreigaben** für den Raspberry Pi einrichten. UPnP-Portfreigaben für den Pi ebenfalls vermeiden bzw. deaktivieren.
+- Es werden keine Domain, kein öffentlicher DNS-Eintrag, kein HTTPS-Zertifikat und kein Tunnel eingerichtet.
 
-Certbot erst einrichten, wenn DNS und Portweiterleitung korrekt funktionieren. Bis dahin ist die Seite nur im lokalen Netzwerk über HTTP erreichbar. Router-Administration und SSH niemals ungeschützt ins Internet freigeben.
+Nach einem Wechsel des Routers oder des lokalen IP-Subnetzes müssen die UFW-Regeln angepasst werden. Aktuelle Regeln anzeigen:
+
+```bash
+sudo ufw status numbered
+ip -4 route
+```
+
+Wenn sich das LAN-Subnetz ändert, die alten LAN-Regeln entfernen und die Website-/SSH-Regeln für das neue Subnetz neu setzen. Beispiel für `192.168.178.0/24`:
+
+```bash
+sudo ufw allow from 192.168.178.0/24 to any port 22 proto tcp
+sudo ufw allow from 192.168.178.0/24 to any port 80 proto tcp
+```
 
 ## 8. Betriebshinweise
 
 - Die Node-API cached die H&P-Daten eine Minute im Arbeitsspeicher.
 - Bei einem Neustart wird der Cache neu aufgebaut.
 - systemd startet den Dienst nach einem Fehler automatisch neu und beim Booten.
-- Nginx begrenzt API-Anfragen und setzt grundlegende Security-Header.
+- Nginx begrenzt API-Anfragen und setzt grundlegende Security-Header. UFW blockiert Zugriffe von außerhalb des lokalen IPv4-Subnetzes.
 - Der Pi sollte per LAN angebunden sein und ein zuverlässiges Netzteil sowie eine hochwertige microSD verwenden.
 - Raspberry Pi 3 B+ ist für eine kleine Ferienhaus-Website geeignet, aber kein Ersatz für hochverfügbares Hosting. Strom-, SD-Karten- oder Internet-Ausfälle machen die Seite vorübergehend nicht erreichbar.
 - Impressum, Datenschutzerklärung, echte Hausfotos, Bildrechte und Domain/HTTPS müssen vor dem öffentlichen Livegang abschließend geprüft werden.
