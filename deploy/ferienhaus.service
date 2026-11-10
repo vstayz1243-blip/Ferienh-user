@@ -1,0 +1,43 @@
+[Unit]
+Description=Ferienhaus Schwarzwald website and availability API
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=ferienhaus
+Group=ferienhaus
+WorkingDirectory=/opt/ferienhaus
+EnvironmentFile=/opt/ferienhaus/.env
+Environment=HOST=127.0.0.1
+Environment=PORT=3000
+Environment=NODE_OPTIONS=--max-old-space-size=192
+ExecStart=/usr/bin/node /opt/ferienhaus/server.mjs
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=15
+KillSignal=SIGTERM
+
+# Resource limits suitable for a Raspberry Pi 3 B+ (1 GB RAM).
+MemoryMax=256M
+TasksMax=64
+
+# Service hardening: the application only needs read access to its code
+# and outbound network access for the H&P iCal feeds.
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectKernelLogs=true
+ProtectControlGroups=true
+ProtectClock=true
+RestrictSUIDSGID=true
+LockPersonality=true
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+SystemCallArchitectures=native
+
+[Install]
+WantedBy=multi-user.target
