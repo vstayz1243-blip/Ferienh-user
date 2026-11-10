@@ -23,7 +23,7 @@ fi
 log "Installiere Systempakete"
 apt-get update
 DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-    ca-certificates curl git nginx
+    ca-certificates curl git nginx ufw
 
 if ! command -v node >/dev/null 2>&1 || ! node -e "process.exit(Number(process.versions.node.split('.')[0]) >= 22 ? 0 : 1)"; then
     log "Installiere Node.js 22 (ARM64)"
@@ -58,6 +58,22 @@ install -o root -g root -m 0644 "$APP_DIR/deploy/ferienhaus.service" \
 install -o root -g root -m 0644 "$APP_DIR/deploy/nginx-ferienhaus.conf" \
     /etc/nginx/conf.d/ferienhaus.conf
 rm -f /etc/nginx/sites-enabled/default
+
+log "Konfiguriere Firewall: Website und SSH nur aus dem lokalen IPv4-Netz"
+LAN_INTERFACE="$(ip -4 route get 1.1.1.1 | awk '{for (i=1; i<=NF; i++) if ($i == "dev") {print $(i+1); exit}}')"
+[[ -n "$LAN_INTERFACE" ]] || fail "Kein aktives IPv4-Netzwerkinterface gefunden. Netzwerkverbindung prüfen."
+
+LAN_CIDR="$(ip -o -f inet addr show dev "$LAN_INTERFACE" scope global | awk 'NR == 1 {print $4}')"
+[[ -n "$LAN_CIDR" ]] || fail "Keine lokale IPv4-Adresse auf $LAN_INTERFACE gefunden."
+
+LAN_NETWORK="$(python3 -c 'import ipaddress,sys; print(ipaddress.ip_interface(sys.argv[1]).network)' "$LAN_CIDR")"
+log "Erkanntes LAN: $LAN_NETWORK über $LAN_INTERFACE"
+
+ufw default deny incoming
+ufw default allow outgoing
+ufw allow from "$LAN_NETWORK" to any port 22 proto tcp comment 'SSH only from local network'
+ufw allow from "$LAN_NETWORK" to any port 80 proto tcp comment 'Ferienhaus website only from local network'
+ufw --force enable
 
 nginx -t
 systemctl daemon-reload
